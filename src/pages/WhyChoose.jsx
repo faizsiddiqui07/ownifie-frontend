@@ -3,7 +3,7 @@ import multimodelImage from "../assets/images/multi-model-flexibility.webp";
 import techDrivenImage from "../assets/images/tech-driven.webp";
 import lowEntryBarrierImage from "../assets/images/low-entry-barrier.webp";
 import wealthUtilityImage from "../assets/images/wealth-utility.webp";
-import legalFirstStructureImage from "../assets/images/Legal-first-structure.webp";
+import legalFirstStructureImage from "../assets/images/legal-first-structure.webp";
 import curatedAssetImage from "../assets/images/curated-assets-section.webp";
 import FullyManagedImage from "../assets/images/fully-managed-ownership.webp";
 import OurProjectsSlider from "./custom-components/OurProjectsSlider";
