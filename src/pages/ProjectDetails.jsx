@@ -154,9 +154,8 @@ const ProjectDetails = () => {
 
   const getProjectDetails = async () => {
     try {
-      const encodedSlug = encodeURIComponent(slug);
       const { data } = await axios.post(`${base_url}/api/projectDetails`, {
-        projectSlug: encodedSlug,
+        projectSlug: slug,
       });
       setProject(data.data);
     } catch (error) {
