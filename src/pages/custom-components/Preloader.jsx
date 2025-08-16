@@ -1,56 +1,48 @@
-// import React, { useEffect, useState } from "react";
-// import { Typewriter } from "react-simple-typewriter";
-
-// const Preloader = () => {
-//   const [show, setShow] = useState(true);
-
-//   useEffect(() => {
-//     const timeout = setTimeout(() => setShow(false), 2800);
-//     return () => clearTimeout(timeout);
-//   }, []);
-
-//   if (!show) return null;
-
-//   return (
-//     <div className="fixed inset-0 flex flex-col justify-center items-center bg-gradient-to-br from-[#dce6f5] via-[#f5f0e3] to-[#fbe7d3] text-[#122F6B] z-50">
-//       <h1 className="text-5xl sm:text-7xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#122F6B] via-[#d08e02] to-[#972608] tracking-wide animate-fadeIn">
-//         <Typewriter words={["OWNiFiE"]} loop={1} cursor={false} />
-//       </h1>
-//       <p className="mt-4 text-sm sm:text-lg text-[#122F6B]/70 tracking-widest animate-fadeIn delay-500">
-//         Redefine Ownership. Redesign Life.
-//       </p>
-//     </div>
-//   );
-// };
-
-// export default Preloader;
-
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/images/logo3.webp";
-import { Typewriter } from "react-simple-typewriter";
 
 const Preloader = () => {
   const [show, setShow] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setShow(false), 2800);
-    return () => clearTimeout(timeout);
+    const fadeOutTimer = setTimeout(() => setFadeOut(true), 3000);
+    const hideTimer = setTimeout(() => setShow(false), 3000);
+    
+    return () => {
+      clearTimeout(fadeOutTimer);
+      clearTimeout(hideTimer);
+    };
   }, []);
 
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 flex flex-col justify-center items-center bg-white text-[#FF9933] z-50">
-      <h1 className="text-5xl sm:text-7xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#FF9933] via-white to-[#138808] tracking-wide animate-fadeIn">
-        {/* <Typewriter words={["OWNiFiE"]} loop={1} cursor={false} /> */}
-        <img src={logo} alt="" />
-      </h1>
-      <p className="mt-4 text-sm sm:text-lg text-[#122F6B]/70 tracking-widest animate-fadeIn delay-500">
-        Redefine Ownership. Redesign Life.
-      </p>
-      <p className="mt-4 text-sm sm:text-lg font-semibold text-[#122F6B]/70 tracking-widest animate-fadeIn delay-500">
-        Powered By BUILDiFIE
-      </p>
+    <div className={`fixed inset-0 flex flex-col justify-center items-center bg-white z-50 transition-opacity duration-500 ${fadeOut ? "opacity-0" : "opacity-100"}`}>
+      <div className="relative w-48 sm:w-72 md:w-96 mb-6 animate-pulse-slow">
+        <img 
+          src={logo} 
+          className="w-full h-full object-contain" 
+          alt="OWNiFiE Logo" 
+        />
+        {/* <div className="absolute inset-0 rounded-full border-4 border-[#FF9933] border-t-transparent animate-spin-slow"></div> */}
+      </div>
+      
+      <div className="text-center space-y-3">
+        <p className="text-base sm:text-lg md:text-xl text-[#122F6B] font-medium tracking-wider animate-slide-up delay-100">
+          Redefine Ownership. Redesign Life.
+        </p>
+        <p className="text-sm sm:text-base text-[#122F6B]/80 font-light tracking-widest animate-slide-up delay-200">
+          Powered by <span className="font-semibold text-[#972608]">BUILDiFIE</span>
+        </p>
+      </div>
+      
+      <div className="absolute bottom-8 w-32 h-1 bg-gray-200 rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-[#972608] rounded-full animate-progress" 
+          style={{ animationDuration: '2.8s' }}
+        ></div>
+      </div>
     </div>
   );
 };
