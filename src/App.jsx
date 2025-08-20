@@ -27,6 +27,7 @@ import "react-toastify/dist/ReactToastify.css";
 import BookNowForm from "./pages/custom-components/BookNowForm";
 import Preloader from "./pages/custom-components/Preloader";
 import WhatsAppFloat from "./pages/custom-components/WhatsAppFloat";
+import AddChannelPartner from "./pages/AddChannelPartner";
 
 const App = () => {
   useEffect(() => {
@@ -56,6 +57,7 @@ const App = () => {
             {/* <Route path="/faq" element={<FAQs />} /> */}
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/property-management" element={<PropertyManagement />} />
+            <Route path="/add-channel-partner" element={<AddChannelPartner />} />
             {/* <Route path="/channel-partner" element={<ChannelPartner />} /> */}
             {/* <Route path="/blog" element={<Blogs />} /> */}
             {/* <Route path="/blog/:slug" element={<BlogDetail />} /> */}

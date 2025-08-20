@@ -21,7 +21,7 @@ const AllProjects = () => {
 
     const delayTimer = setTimeout(() => {
       setShowCards(true);
-    }, 700);
+    }, 800);
 
     return () => clearTimeout(delayTimer);
   }, []);
@@ -50,7 +50,6 @@ const AllProjects = () => {
     );
   }
 
-  // 2 seconds ho gaye but koi project nahi mila
   if (showCards && allProjects.length === 0) {
     return (
       <div className="text-center py-10 text-lg text-red-600">

@@ -7,14 +7,6 @@ import { EffectCube, Pagination } from "swiper/modules";
 import "swiper/css/effect-cube";
 import "swiper/css/pagination";
 
-import test1 from "../assets/images/test1.webp";
-import test2 from "../assets/images/test2.webp";
-import test3 from "../assets/images/test3.webp";
-
-import video1 from "../assets/video1.mp4";
-import video2 from "../assets/video3.mp4";
-import video3 from "../assets/video4.mp4";
-import video5 from "../assets/video6.mp4";
 import video6 from "../assets/demo.mp4";
 
 import { EffectFade, FreeMode, Autoplay } from "swiper/modules";
@@ -49,22 +41,30 @@ const HomePage = () => {
   const slides = [bannerImage1, bannerImage2, bannerImage3];
   const [allProjects, setAllProjects] = useState([]);
   const [allBlogs, setAllBlogs] = useState([]);
+  const [loadingProjects, setLoadingProjects] = useState(true);
+  const [loadingBlogs, setLoadingBlogs] = useState(true);
 
   const get_projects = async () => {
     try {
+      setLoadingProjects(true);
       const { data } = await axios.get(`${base_url}/api/allWebsiteProjects`);
       setAllProjects(data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingProjects(false);
     }
   };
 
   const get_Blogs = async () => {
     try {
+      setLoadingBlogs(true);
       const { data } = await axios.get(`${base_url}/api/allWebsiteBlog`);
       setAllBlogs(data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingBlogs(false);
     }
   };
 
@@ -72,6 +72,12 @@ const HomePage = () => {
     get_projects();
     get_Blogs();
   }, []);
+
+  const Loader = () => (
+    <div className="flex justify-center items-center py-20">
+      <div className="w-12 h-12 border-4 border-[#122F6B] border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
 
   return (
     <>
@@ -140,25 +146,30 @@ const HomePage = () => {
           All Projects
           {/* <div className="w-40 sm:w-[200px] h-[1.5px] bg-[#122F6B] mx-auto mt-1" /> */}
         </h2>
-        <div className="mx-auto">
-          <Swiper
-            loop={true}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            freeMode={true}
-            modules={[Autoplay]}
-            breakpoints={{
-              320: { slidesPerView: 1, spaceBetween: 10 },
-              640: { slidesPerView: 2, spaceBetween: 20 },
-              1024: { slidesPerView: 3, spaceBetween: 30 },
-            }}
-          >
-            {allProjects.map((data, idx) => (
-              <SwiperSlide key={data._id || idx}>
-                <Card data={data} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+        {loadingProjects ? (
+          <Loader />
+          // <p>styrth</p>
+        ) : (
+          <div className="mx-auto">
+            <Swiper
+              loop={true}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              freeMode={true}
+              modules={[Autoplay]}
+              breakpoints={{
+                320: { slidesPerView: 1, spaceBetween: 10 },
+                640: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 30 },
+              }}
+            >
+              {allProjects.map((data, idx) => (
+                <SwiperSlide key={data._id || idx}>
+                  <Card data={data} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
         <div className="flex justify-center mt-6">
           <Link
             to="/projects"
@@ -493,26 +504,31 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* <section className="w-full px-4 sm:px-16 py-8">
+      <section className="w-full px-4 sm:px-16 py-8">
         <h2 className="text-center text-3xl sm:text-4xl font-semibold mb-6 relative">
           Blogs
-          
         </h2>
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allBlogs.slice(0, 6).map((project, index) => (
-            <BlogCard key={index} blog={project} />
-          ))}
-        </div>
-        <div className="flex justify-center mt-6">
-          <Link
-            to="/blog"
-            onClick={ScrollToTop}
-            className="bg-[#122F6B] hover:bg-[#12306be9] uppercase text-white px-6 py-3 rounded-lg shadow-md"
-          >
-            View More
-          </Link>
-        </div>
-      </section> */}
+        {loadingBlogs ? (
+          <Loader />
+        ) : (
+          <>
+            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6">
+              {allBlogs.slice(0, 6).map((project, index) => (
+                <BlogCard key={index} blog={project} />
+              ))}
+            </div>
+            <div className="flex justify-center mt-6">
+              <Link
+                to="/blog"
+                onClick={ScrollToTop}
+                className="bg-[#122F6B] hover:bg-[#12306be9] uppercase text-white px-6 py-3 rounded-lg shadow-md"
+              >
+                View More
+              </Link>
+            </div>
+          </>
+        )}
+      </section>
     </>
   );
 };

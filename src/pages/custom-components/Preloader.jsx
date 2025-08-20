@@ -30,7 +30,7 @@ const Preloader = () => {
       
       <div className="text-center space-y-3">
         <p className="text-base sm:text-lg md:text-xl text-[#122F6B] font-medium tracking-wider animate-slide-up delay-100">
-          Redefine Ownership. Redesign Life.
+          Redefine Ownership . Redesign Life
         </p>
         <p className="text-sm sm:text-base text-[#122F6B]/80 font-light tracking-widest animate-slide-up delay-200">
           Powered by <span className="font-semibold text-[#972608]">BUILDiFIE</span>

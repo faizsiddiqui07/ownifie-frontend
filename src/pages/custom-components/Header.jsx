@@ -15,15 +15,15 @@ const navLinks = [
   },
   { name: "About us", to: "/about-us" },
   { name: "Contact Us", to: "/contact-us" },
-  // {
-  //   name: "More",
-  //   dropdown: [
-  //     // { label: "Property Management", to: "/property-management" },
-  //     // { label: "Channel Partner", to: "/channel-partner" },
-  //     { label: "Blog", to: "/blog" },
-  //     { label: "FAQ", to: "/faq" },
-  //   ],
-  // },
+  {
+    name: "More",
+    dropdown: [
+      // { label: "Property Management", to: "/property-management" },
+      { label: "Partner with Us", to: "/add-channel-partner" },
+      { label: "Blog", to: "/blog" },
+      { label: "FAQ", to: "/faq" },
+    ],
+  },
 ];
 
 const Header = () => {
