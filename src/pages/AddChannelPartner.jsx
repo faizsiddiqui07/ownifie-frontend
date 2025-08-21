@@ -104,54 +104,104 @@ const AddChannelPartner = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const profileImage = await uploadImage(formData.profileImage);
-      const panCard = await uploadImage(formData.panCard);
-      const aadharFront = await uploadImage(formData.aadharFront);
-      const aadharBack = await uploadImage(formData.aadharBack);
+  e.preventDefault();
+  setLoading(true);
 
-      const payload = {
-          fullname:formData.fullname,
-          email:formData.email,
-          phone:formData.phone,
-          state:formData.state,
-          city:formData.city,
-          zipCode:formData.zipCode,
-          partnerCategory:formData.partnerCategory,
-        documents: {
-          profileImage,
-          panCard,
-          aadharFront,
-          aadharBack,
-        },
-        agreed: formData.agreed,
-      };
+  try {
+    // ✅ Step 1: Validation rules
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[6-9]\d{9}$/; // India phone numbers starting 6-9
 
-      const res = await axios.post(`${base_url}/api/addChannelPartner`, payload);
-      toast.success(res.data.message);
-
-      setFormData({
-        fullname: "",
-        email: "",
-        phone: "",
-        state: "",
-        city: "",
-        zipCode: "",
-        panCard: null,
-        aadharFront: null,
-        aadharBack: null,
-        profileImage: null,
-        agreed: false,
-      });
-    } catch (err) {
-      console.error(err);
-      toast.error(err?.response?.data?.message || "Something went wrong");
-    } finally {
+    if (!formData.fullname.trim()) {
+      toast.error("Full Name is required.");
       setLoading(false);
+      return;
     }
-  };
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+    if (!phoneRegex.test(formData.phone)) {
+      toast.error("Please enter a valid 10-digit phone number.");
+      setLoading(false);
+      return;
+    }
+    if (!formData.state || !formData.city || !formData.zipCode) {
+      toast.error("Please fill all fields");
+      setLoading(false);
+      return;
+    }
+    if (!formData.partnerCategory) {
+      toast.error("Please select a partner category.");
+      setLoading(false);
+      return;
+    }
+    if (
+      !formData.profileImage ||
+      !formData.panCard ||
+      !formData.aadharFront ||
+      !formData.aadharBack
+    ) {
+      toast.error("Please upload all required documents.");
+      setLoading(false);
+      return;
+    }
+    if (!formData.agreed) {
+      toast.error("You must agree to the terms before submitting.");
+      setLoading(false);
+      return;
+    }
+
+    // ✅ Step 2: Upload images only after validation passes
+    const profileImage = await uploadImage(formData.profileImage);
+    const panCard = await uploadImage(formData.panCard);
+    const aadharFront = await uploadImage(formData.aadharFront);
+    const aadharBack = await uploadImage(formData.aadharBack);
+
+    const payload = {
+      fullname: formData.fullname,
+      email: formData.email,
+      phone: formData.phone,
+      state: formData.state,
+      city: formData.city,
+      zipCode: formData.zipCode,
+      partnerCategory: formData.partnerCategory,
+      documents: {
+        profileImage,
+        panCard,
+        aadharFront,
+        aadharBack,
+      },
+      agreed: formData.agreed,
+    };
+
+    const res = await axios.post(`${base_url}/api/addChannelPartner`, payload);
+    toast.success(res.data.message);
+
+    // Reset form
+    setFormData({
+      fullname: "",
+      email: "",
+      phone: "",
+      state: "",
+      city: "",
+      zipCode: "",
+      partnerCategory: "",
+      panCard: null,
+      aadharFront: null,
+      aadharBack: null,
+      profileImage: null,
+      agreed: false,
+    });
+  } catch (err) {
+    console.error(err);
+    toast.error(err?.response?.data?.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const SectionHeader = ({ title, icon: Icon, isActive, onClick }) => (
     <div
@@ -275,7 +325,7 @@ const AddChannelPartner = () => {
                   </label>
                   <input
                     type="tel"
-                    placeholder="+91 1234567890"
+                    placeholder="1234567890"
                     value={formData.phone}
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })

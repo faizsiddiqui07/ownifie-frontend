@@ -5,26 +5,7 @@ import { base_url } from "@/config/config";
 
 const AllProjects = () => {
   const [allProjects, setAllProjects] = useState([]);
-  const [showCards, setShowCards] = useState(false);
-
-  const get_projects = async () => {
-    try {
-      const { data } = await axios.get(`${base_url}/api/allWebsiteProjects`);
-      setAllProjects(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    get_projects();
-
-    const delayTimer = setTimeout(() => {
-      setShowCards(true);
-    }, 800);
-
-    return () => clearTimeout(delayTimer);
-  }, []);
+  const [loading, setLoading] = useState(true);
 
   const funnyMessages = [
     "Warming up bulldozers... 🏗️",
@@ -33,24 +14,51 @@ const AllProjects = () => {
     "Polishing your villa... 🧽",
   ];
 
-  const [funnyText, setFunnyText] = useState("");
+  const [funnyText, setFunnyText] = useState(funnyMessages[0]);
 
+  // 🔄 funny text change every 2s
   useEffect(() => {
-    const random =
-      funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
-    setFunnyText(random);
+    const interval = setInterval(() => {
+      const random =
+        funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+      setFunnyText(random);
+    }, 2000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  if (!showCards) {
+  const get_projects = async () => {
+    const startTime = Date.now(); // ✅ Start time
+    try {
+      const { data } = await axios.get(`${base_url}/api/allWebsiteProjects`);
+      setAllProjects(data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      const elapsed = Date.now() - startTime;
+      const remainingTime = Math.max(0, 800 - elapsed); // ✅ Ensure 800ms min
+      setTimeout(() => setLoading(false), remainingTime);
+    }
+  };
+
+  useEffect(() => {
+    get_projects();
+  }, []);
+
+  // ✅ Loader UI
+  if (loading) {
     return (
       <div className="flex items-center justify-center flex-col gap-y-4 h-[300px]">
         <div className="animate-spin rounded-full h-10 sm:h-16 w-10 sm:w-16 border-t-4 border-b-4 border-[#122F6B]"></div>
-        <p className="text-[#122F6B] text-lg font-medium animate-bounce">{funnyText}</p>
+        <p className="text-[#122F6B] text-lg font-medium animate-bounce">
+          {funnyText}
+        </p>
       </div>
     );
   }
 
-  if (showCards && allProjects.length === 0) {
+  // ✅ No projects
+  if (allProjects.length === 0) {
     return (
       <div className="text-center py-10 text-lg text-red-600">
         No Projects Found
@@ -58,7 +66,7 @@ const AllProjects = () => {
     );
   }
 
-  // 2 seconds ho gaye aur projects bhi mil gaye
+  // ✅ Projects loaded
   return (
     <div className="w-full space-y-16 bg-gradient-to-br from-[#a0a993] via-white to-slate-100">
       <section className="px-6 sm:px-16 py-6 sm:py-10">

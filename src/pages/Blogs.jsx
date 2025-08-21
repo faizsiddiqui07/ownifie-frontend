@@ -25,7 +25,7 @@ const Blogs = () => {
     <section className="px-6 sm:px-16 py-6 sm:py-10">
       <h2 className="text-3xl sm:text-5xl font-bold text-gray-800 text-center mb-8">
         Blogs
-        <span className="block w-20 h-[3px] bg-[#d08e02] mx-auto mt-2"></span>
+        {/* <span className="block w-20 h-[3px] bg-[#d08e02] mx-auto mt-2"></span> */}
       </h2>
       <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {allBlogs.map((project, index) => (

@@ -20,8 +20,8 @@ const navLinks = [
     dropdown: [
       // { label: "Property Management", to: "/property-management" },
       { label: "Partner with Us", to: "/add-channel-partner" },
-      { label: "Blog", to: "/blog" },
-      { label: "FAQ", to: "/faq" },
+      // { label: "Blog", to: "/blog" },
+      // { label: "FAQ", to: "/faq" },
     ],
   },
 ];

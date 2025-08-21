@@ -504,7 +504,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="w-full px-4 sm:px-16 py-8">
+      {/* <section className="w-full px-4 sm:px-16 py-8">
         <h2 className="text-center text-3xl sm:text-4xl font-semibold mb-6 relative">
           Blogs
         </h2>
@@ -528,7 +528,7 @@ const HomePage = () => {
             </div>
           </>
         )}
-      </section>
+      </section> */}
     </>
   );
 };

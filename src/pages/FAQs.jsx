@@ -61,14 +61,14 @@ const FAQsSection = ({ image, isImageLeft, faqs }) => {
 const FAQs = () => {
   const section1FAQs = [
     {
-      question: "What is your return policy?",
+      question: "How is OWNiFiE different from other real estate companies?",
       answer:
-        "Our return policy allows returns within 30 days of purchase. Items must be in original condition.",
+        "We combine traditional real estate expertise with PropTech innovations like digital listings, virtual tours, secure transactions, and fractional ownership models.",
     },
     {
-      question: "Do you offer international shipping?",
+      question: "Is OWNiFiE only for high-end properties?",
       answer:
-        "Yes, we offer international shipping to selected countries. Shipping charges apply.",
+        "No, we have a wide portfolio ranging from affordable homes to luxury villas and premium investments.",
     },
     {
       question: "How do I track my order?",
