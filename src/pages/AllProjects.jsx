@@ -14,21 +14,12 @@ const AllProjects = () => {
     "Polishing your villa... 🧽",
   ];
 
-  const [funnyText, setFunnyText] = useState(funnyMessages[0]);
-
-  // 🔄 funny text change every 2s
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const random =
-        funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
-      setFunnyText(random);
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const [funnyText] = useState(
+    funnyMessages[Math.floor(Math.random() * funnyMessages.length)]
+  );
 
   const get_projects = async () => {
-    const startTime = Date.now(); // ✅ Start time
+    const startTime = Date.now(); 
     try {
       const { data } = await axios.get(`${base_url}/api/allWebsiteProjects`);
       setAllProjects(data.data);
@@ -36,7 +27,7 @@ const AllProjects = () => {
       console.log(error);
     } finally {
       const elapsed = Date.now() - startTime;
-      const remainingTime = Math.max(0, 800 - elapsed); // ✅ Ensure 800ms min
+      const remainingTime = Math.max(0, 800 - elapsed); 
       setTimeout(() => setLoading(false), remainingTime);
     }
   };

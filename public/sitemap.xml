@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://ownifie.com/</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Projects Page -->
+  <url>
+    <loc>https://ownifie.com/projects</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Contact Us Page -->
+  <url>
+    <loc>https://ownifie.com/contact-us</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Business Model Page -->
+  <url>
+    <loc>https://ownifie.com/business-model</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Why Choose Us Page -->
+  <url>
+    <loc>https://ownifie.com/why-choose</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Core Functionality Page -->
+  <url>
+    <loc>https://ownifie.com/core-functionality</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- About Us Page -->
+  <url>
+    <loc>https://ownifie.com/about-us</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Add Channel Partner Page -->
+  <url>
+    <loc>https://ownifie.com/add-channel-partner</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>
