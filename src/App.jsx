@@ -28,6 +28,11 @@ import BookNowForm from "./pages/custom-components/BookNowForm";
 import Preloader from "./pages/custom-components/Preloader";
 import WhatsAppFloat from "./pages/custom-components/WhatsAppFloat";
 import AddChannelPartner from "./pages/AddChannelPartner";
+import { HelmetProvider } from "react-helmet-async";
+import PrivacyPolicy from "./pages/Privacy-Policy";
+import TermsAndCondition from "./pages/Terms&Condition";
+import RefundPolicy from "./pages/RefundPolicy";
+import Disclaimer from "./pages/Disclaimer";
 
 const App = () => {
   useEffect(() => {
@@ -45,6 +50,7 @@ const App = () => {
 
   return (
     <>
+    <HelmetProvider>
       <BrowserRouter>
         <Layout>
           <Routes>
@@ -63,6 +69,10 @@ const App = () => {
             {/* <Route path="/blog/:slug" element={<BlogDetail />} /> */}
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/book-now/:projectId" element={<BookNowForm />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-conditions" element={<TermsAndCondition />} />  
+            <Route path="/refund-policy" element={<RefundPolicy />} /> 
+            <Route path="/disclaimer" element={<Disclaimer />} />  
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ToastContainer position="top-right" autoClose={3000} />
@@ -70,6 +80,7 @@ const App = () => {
         </Layout>
         <Footer />
       </BrowserRouter>
+      </HelmetProvider>
     </>
   );
 };

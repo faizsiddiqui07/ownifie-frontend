@@ -39,7 +39,7 @@ const Card = ({ data }) => {
         <p className="text-base font-bold text-[#d08e02] mt-1">
           {data?.projectType === "Villas" ||
           data?.projectType === "Studio Apartments"
-            ? "OWNiBIT Value: ₹"
+            ? "OWNiCELL Value: ₹"
             : "OWNiPROP Value: ₹"}
           {data?.projectType === "Villas" ||
           data?.projectType === "Studio Apartments"

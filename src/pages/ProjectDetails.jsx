@@ -619,7 +619,7 @@ const ProjectDetails = () => {
                 {project?.projectType === "Villas" ||
                 project?.projectType === "Studio Apartments" ? (
                   <span>
-                    OWNiBIT Value (1/11<sup>th</sup> Fraction)
+                    OWNiCELL Value (1/11<sup>th</sup> Fraction)
                   </span>
                 ) : (
                   "OWNiPROP Value"
@@ -717,7 +717,7 @@ const ProjectDetails = () => {
                             Entire Unit
                           </TableHead>
                           <TableHead className="w-[25%] text-right whitespace-nowrap">
-                            OWNiBIT (1/11)
+                            OWNiCELL (1/11)
                           </TableHead>
                         </TableRow>
                       </TableHeader>
@@ -864,7 +864,7 @@ const ProjectDetails = () => {
                           Entire Unit
                         </TableHead>
                         <TableHead className="text-right w-[30%]">
-                          OWNiBIT (1/11)
+                          OWNiCELL (1/11)
                         </TableHead>
                       </TableRow>
                     </TableHeader>

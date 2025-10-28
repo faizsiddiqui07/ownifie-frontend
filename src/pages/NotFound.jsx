@@ -11,7 +11,7 @@ const NotFound = () => {
       <p className="text-gray-600 mt-2 text-lg">The page you're looking for doesn't exist.</p>
       <Link
         to="/"
-        className="mt-6 px-3 sm:px-6 py-2 sm:py-3 bg-[#d08e02] text-white text-lg font-semibold rounded-lg shadow-md hover:bg-[#e1a703] transform hover:scale-105 transition duration-300"
+        className="mt-6 px-3 sm:px-6 py-2 sm:py-3 bg-[#122F6B] hover:bg-[#12306be9] text-white text-lg font-semibold rounded-lg shadow-md transform hover:scale-105 transition duration-300"
       >
         Go to Homepage
       </Link>

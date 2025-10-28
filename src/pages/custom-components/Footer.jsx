@@ -4,122 +4,192 @@ import facebookIcon from "../../assets/images/facebook.webp";
 import instagramIcon from "../../assets/images/instagram.webp";
 import linkedInIcon from "../../assets/images/linkedin.webp";
 import twitterIcon from "../../assets/images/twitter.webp";
+import threadsIcon from "../../assets/images/threads.webp";
 import { FaLocationDot, FaPhone } from "react-icons/fa6";
 import { IoMdMail } from "react-icons/io";
+import logo from "../../assets/images/logo3.webp";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white pt-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Company Info */}
-          <div>
-            <ul>
-              <li>
-                <Link to="/about-us" className="text-gray-400 hover:text-white">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/projects" className="text-gray-400 hover:text-white">
-                  Projects
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contact-us"
-                  className="text-gray-400 hover:text-white"
-                >
-                  Contacts
-                </Link>
-              </li>
-              <li>
-                <Link to="/blog" className="text-gray-400 hover:text-white">
-                  Blog
-                </Link>
-              </li>
-            </ul>
+    <footer className="bg-gray-800 text-white">
+      {/* Main Footer Content */}
+      <div className="px-4 sm:px-16 py-12">
+        {/* Brand Section */}
+
+        <div className="flex flex-col justify-center items-center mb-8">
+          <img src={logo} alt="Ownifie Logo" className="h-10 w-auto mb-2" />
+          <p className="text-gray-400 text-sm text-center"> 
+            Transforming digital experiences with innovative solutions and
+            cutting-edge technology.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 x gap-8 lg:gap-12">
+          <div className="lg:col-span-1">
+            <div className="flex flex-col space-y-2">
+              <h3 className="text-lg font-semibold md:mb-2">Company</h3>
+              <Link
+                to="/about-us"
+                className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
+              >
+                About Us
+              </Link>
+              <Link
+                to="/projects"
+                className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
+              >
+                Projects
+              </Link>
+              <Link
+                to="/contact-us"
+                className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
+              >
+                Contacts
+              </Link>
+              {/* <Link
+                to="/blog"
+                className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
+              >
+                Blog
+              </Link> */}
+            </div>
           </div>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul>
-              <li>
-                <Link to="#" className="text-gray-400 hover:text-white">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="#" className="text-gray-400 hover:text-white">
-                  Terms & Condition
-                </Link>
-              </li>
-              <li>
-                <Link to="#" className="text-gray-400 hover:text-white">
-                  Refund Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="#" className="text-gray-400 hover:text-white">
-                  Disclaimer
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Policies Section */}
+          {/* <div>
+            <h3 className="text-lg font-semibold mb-2 md:mb-6">Policies</h3>
+            <div className="flex flex-col space-y-3">
+              <Link
+                to="/privacy-policy"
+                className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                to="/terms-conditions"
+                className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
+              >
+                Terms & Conditions
+              </Link>
+              <Link
+                to="/refund-policy"
+                className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
+              >
+                Refund Policy
+              </Link>
+              <Link
+                to="/disclaimer"
+                className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
+              >
+                Disclaimer
+              </Link>
+            </div>
+          </div> */}
 
-          {/* Contact */}
+          {/* Contact Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact</h3>
-            <ul>
-              <li>
+            <h3 className="text-lg font-semibold mb-2 md:mb-6">Contact Us</h3>
+            <div className="space-y-4">
+              <div className="flex items-start">
+                <IoMdMail className="text-blue-400 mt-1 mr-3 flex-shrink-0" />
                 <a
                   href="mailto:info@ownifie.com"
-                  className="text-gray-400 hover:text-white transition flex items-center gap-x-2"
+                  className="text-gray-400 hover:text-[#972608] transition-colors duration-200 break-words"
                 >
-                  <IoMdMail /> info@ownifie.com
+                  info@ownifie.com
                 </a>
-              </li>
-              <li className="flex items-center gap-x-2">
-                <FaPhone className="text-gray-400 hover:text-white transition" />
+              </div>
+              <div className="flex items-center">
+                <FaPhone className="text-blue-400 mr-3 flex-shrink-0" />
                 <a
                   href="tel:+919119897770"
-                  className="text-gray-400 hover:text-whit w-6esm: transition"
+                  className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
                 >
                   +91 9119897770
                 </a>
-              </li>
-              <li>
-                <span className="text-gray-400 flex items-center gap-x-2">
-                  <FaLocationDot /> Lucknow
-                </span>
-              </li>
-            </ul>
+              </div>
+              <div className="flex items-start">
+                <FaLocationDot className="text-blue-400 mt-1 mr-3 flex-shrink-0" />
+                <span className="text-gray-400">Lucknow</span>
+              </div>
+            </div>
           </div>
 
-          {/* Social Media */}
+          {/* Social Media Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
-            <div className="flex space-x-6">
-              <Link to="#" className="w-8 sm:w-10 h-8 sm:h-10 ">
-                <img src={facebookIcon} loading="lazy" alt="facebook" />
+            <h3 className="text-lg font-semibold mb-2 md:mb-6">Follow Us</h3>
+            <p className="text-gray-400 mb-4 text-sm">
+              Stay connected with us on social media for updates and news.
+            </p>
+            <div className="flex space-x-4">
+              <Link
+                to="https://www.facebook.com/share/1Cv6ypeZj9/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={facebookIcon}
+                  loading="lazy"
+                  alt="Facebook"
+                  className="w-8 h-8"
+                />
               </Link>
-              <Link to="#" className="w-8 sm:w-10 h-8 sm:h-10">
-                <img src={twitterIcon} loading="lazy" alt="twitter" />
+              <Link
+                to="https://x.com/OWNiFiE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={twitterIcon}
+                  loading="lazy"
+                  alt="Twitter"
+                  className="w-8 h-8"
+                />
               </Link>
-              <Link to="#" className="w-8 sm:w-10 h-8 sm:h-10">
-                <img src={linkedInIcon} loading="lazy" alt="linkedIn" />
+              <Link
+                to="https://www.linkedin.com/company/ownifie/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={linkedInIcon}
+                  loading="lazy"
+                  alt="LinkedIn"
+                  className="w-8 h-8"
+                />
               </Link>
-              <Link to="#" className="w-8 sm:w-10 h-8 sm:h-10">
-                <img src={instagramIcon} loading="lazy" alt="instagram" />
+              <Link
+                to="https://www.instagram.com/ownifie"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={instagramIcon}
+                  loading="lazy"
+                  alt="Instagram"
+                  className="w-8 h-8"
+                />
+              </Link>
+              <Link
+                to="https://www.threads.com/@ownifie"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={threadsIcon}
+                  loading="lazy"
+                  alt="Threads"
+                  className="w-8 h-8"
+                />
               </Link>
             </div>
           </div>
         </div>
       </div>
-      <div className="border-t border-gray-700 mt-6 py-3 text-center text-gray-400">
+
+      {/* Copyright Section */}
+      <div className="border-t border-gray-700 py-3 text-center text-gray-400">
         <p>
-          &copy; {new Date().getFullYear()} Ownifie |{" "}
+          © 2025 Ownifie |{" "}
           <span>Developed by NeuroCort. All Rights Reserved.</span>
         </p>
       </div>

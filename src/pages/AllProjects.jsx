@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "./custom-components/Card";
 import axios from "axios";
 import { base_url } from "@/config/config";
+import { Helmet } from "react-helmet-async";
 
 const AllProjects = () => {
   const [allProjects, setAllProjects] = useState([]);
@@ -19,7 +20,7 @@ const AllProjects = () => {
   );
 
   const get_projects = async () => {
-    const startTime = Date.now(); 
+    const startTime = Date.now();
     try {
       const { data } = await axios.get(`${base_url}/api/allWebsiteProjects`);
       setAllProjects(data.data);
@@ -27,7 +28,7 @@ const AllProjects = () => {
       console.log(error);
     } finally {
       const elapsed = Date.now() - startTime;
-      const remainingTime = Math.max(0, 800 - elapsed); 
+      const remainingTime = Math.max(0, 800 - elapsed);
       setTimeout(() => setLoading(false), remainingTime);
     }
   };
@@ -59,18 +60,52 @@ const AllProjects = () => {
 
   // ✅ Projects loaded
   return (
-    <div className="w-full space-y-16 bg-gradient-to-br from-[#a0a993] via-white to-slate-100">
-      <section className="px-6 sm:px-16 py-6 sm:py-10">
-        <h2 className="text-3xl sm:text-5xl font-bold text-gray-800 mb-8">
-          Projects
-        </h2>
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allProjects.map((project, index) => (
-            <Card key={index} data={project} />
-          ))}
-        </div>
-      </section>
-    </div>
+    <>
+      <Helmet>
+        {/* Title */}
+        <title>
+          Our Projects | Transforming Real Estate with Innovation - OWNiFiE
+        </title>
+
+        {/* Meta Description */}
+        <meta
+          name="description"
+          content="Explore Ownifie's tech-enabled real estate & asset ownership investment platform of conceptually designed projects"
+        />
+
+        {/* Canonical URL to prevent Duplicate Content */}
+        <link rel="canonical" href="https://ownifie.com/projects" />
+
+        {/* Keywords */}
+        <meta
+          name="keywords"
+          content="Buildifie, Buildifie projects,Questline,ultra luxury real estate, sustainable real estate, eco-friendly developments, innovative real estate projects,Architectus Bureau,Archetype"
+        />
+
+        {/* Open Graph Metadata */}
+        <meta property="og:url" content="https://ownifie.com/projects" />
+        <meta
+          property="og:title"
+          content="Our Projects | Transforming Real Estate with Innovation - OWNiFiE"
+        />
+        <meta
+          property="og:description"
+          content="Explore Ownifie's tech-enabled real estate & asset ownership investment platform of conceptually designed projects"
+        />
+      </Helmet>
+      <div className="w-full space-y-16 bg-gradient-to-br from-[#a0a993] via-white to-slate-100">
+        <section className="px-6 sm:px-16 py-6 sm:py-10">
+          <h2 className="text-3xl sm:text-5xl font-bold text-gray-800 mb-8">
+            Projects
+          </h2>
+          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6">
+            {allProjects.map((project, index) => (
+              <Card key={index} data={project} />
+            ))}
+          </div>
+        </section>
+      </div>
+    </>
   );
 };
 

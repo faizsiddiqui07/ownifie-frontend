@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 import "swiper/css/effect-cards";
-import { EffectCube, Pagination } from "swiper/modules";
 import "swiper/css/effect-cube";
 import "swiper/css/pagination";
 
@@ -36,6 +35,7 @@ import BlogCard from "./custom-components/BlogCard";
 import ScrollToTop from "./custom-components/ScrollToTop";
 import axios from "axios";
 import { base_url } from "@/config/config";
+import { Helmet } from "react-helmet-async";
 
 const HomePage = () => {
   const slides = [bannerImage1, bannerImage2, bannerImage3];
@@ -43,6 +43,8 @@ const HomePage = () => {
   const [allBlogs, setAllBlogs] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [loadingBlogs, setLoadingBlogs] = useState(true);
+  const videoRef = useRef(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
 
   const get_projects = async () => {
     try {
@@ -73,6 +75,18 @@ const HomePage = () => {
     get_Blogs();
   }, []);
 
+  const toggleVideoPlay = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsVideoPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsVideoPlaying(false);
+      }
+    }
+  };
+
   const Loader = () => (
     <div className="flex justify-center items-center py-20">
       <div className="w-12 h-12 border-4 border-[#122F6B] border-t-transparent rounded-full animate-spin"></div>
@@ -81,6 +95,39 @@ const HomePage = () => {
 
   return (
     <>
+      <Helmet>
+        {/* Title */}
+        <title>
+          OWNiFiE | Own Wealth Now - Invest for a Futuristic & Impactful Estate
+        </title>
+
+        {/* Meta Description */}
+        <meta
+          name="description"
+          content="OWNiFiE is a gateway to Fractional-Ownership, Sole-Ownership & Tokenized-Ownership of luxury & premium real estate properties & assets"
+        />
+
+        {/* Canonical URL to prevent Duplicate Content */}
+        <link rel="canonical" href="https://ownifie.com" />
+
+        {/* Keywords */}
+        <meta
+          name="keywords"
+          content="OWNiFiE, sustainable real estate, eco-tech projects, real estate investment, fractional ownership, investment plan, property, real asset ownership, luxury property"
+        />
+
+        {/* Open Graph Metadata */}
+        <meta property="og:url" content="https://ownifie.com" />
+        <meta
+          property="og:title"
+          content="OWNiFiE | Own Wealth Now - Invest for a Futuristic & Impactful Estate"
+        />
+        <meta
+          property="og:description"
+          content="OWNiFiE is a gateway to Fractional-Ownership, Sole-Ownership & Tokenized-Ownership of luxury & premium real estate properties & assets"
+        />
+      </Helmet>
+
       {/* Banner Section */}
       <section className="w-full relative">
         {/* Swiper for sliding images only */}
@@ -148,8 +195,8 @@ const HomePage = () => {
         </h2>
         {loadingProjects ? (
           <Loader />
-          // <p>styrth</p>
         ) : (
+          // <p>styrth</p>
           <div className="mx-auto">
             <Swiper
               loop={true}
@@ -285,12 +332,9 @@ const HomePage = () => {
               key={index}
               className="flex flex-col items-center text-center bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
             >
-              <img
-                src={item.icon}
-                loading="lazy"
-                className="w-12 sm:w-16 mb-4"
-                alt={item.title}
-              />
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4 group-hover:bg-gray-200 transition-colors">
+                <img src={item.icon} className="w-8 h-8" alt={item.title} />
+              </div>
               <h3 className="text-xl font-semibold mb-3 text-gray-800">
                 {item.title}
               </h3>
@@ -311,47 +355,70 @@ const HomePage = () => {
         </div> */}
       </section>
 
-      <section className="relative flex items-center justify-center pt-6 md:pt-12 bg-gray-100 dark:bg-gray-900">
-        <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative group overflow-hidden rounded-2xl shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500">
-            {/* Video Container with Gradient Overlay */}
-            <div className="relative w-full aspect-video h-auto ">
+      <section className="py-6 xxs:py-8 xs:py-10 sm:py-16 bg-gray-900">
+        <div className="px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <video
+                ref={videoRef}
                 src={video6}
-                className="absolute inset-0 w-full h-full object-cover"
+                className="w-full h-auto"
                 autoPlay
                 muted
                 loop
                 playsInline
               />
 
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300"></div>
-
-              {/* Play/Pause Button (visible on hover) */}
-              <button
-                className="absolute inset-0 flex items-center justify-center w-16 h-16 md:w-20 md:h-20 m-auto bg-white/20 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-2 border-white/30 hover:border-white/50"
-                onClick={(e) => {
-                  const video =
-                    e.currentTarget.parentElement.querySelector("video");
-                  video.paused ? video.play() : video.pause();
-                }}
-              >
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <button
+                  onClick={toggleVideoPlay}
+                  className="bg-white/20 backdrop-blur-sm rounded-full p-4 border-2 border-white/30 hover:border-white/50 transition-all"
                 >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M18 12L6 5v14l12-7Z"
-                  />
-                </svg>
-              </button>
+                  {isVideoPlaying ? (
+                    <svg
+                      className="w-8 h-8 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-8 h-8 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
+
+            {/* <div className="text-center mt-8 text-white">
+              <h3 className="text-2xl font-semibold mb-4">Experience the OWNiFiE Difference</h3>
+              <p className="text-gray-300 max-w-2xl mx-auto">
+                Watch how we're transforming real estate investment through technology, transparency, and innovative ownership models.
+              </p>
+            </div> */}
           </div>
         </div>
       </section>
@@ -371,135 +438,34 @@ const HomePage = () => {
             apartments, and eco-retreats — all verified, transparent, and
             accessible from fingertips.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 cursor-default">
-            <div
-              data-aos="flip-left"
-              data-aos-easing="ease-out-cubic"
-              data-aos-duration="2000"
-              className="flex flex-col items-center text-center p-6 bg-white shadow-lg rounded-xl transition duration-300 transform  hover:shadow-xl"
-            >
-              <img
-                src={icon4}
-                loading="lazy"
-                className="w-12 sm:w-16 mb-4"
-                alt="Easy To Buy"
-              />
-              <span className="text-gray-800 font-semibold text-lg">
-                Easy To OWN
-              </span>
-            </div>
-            <div
-              data-aos="flip-left"
-              data-aos-easing="ease-out-cubic"
-              data-aos-duration="2000"
-              className="flex flex-col items-center text-center p-6 bg-white shadow-lg rounded-xl transition duration-300 transform  hover:shadow-xl"
-            >
-              <img
-                src={icon5}
-                loading="lazy"
-                className="w-12 sm:w-16 mb-4"
-                alt="Fully Furnished & Professionally Managed"
-              />
-              <span className="text-gray-800 font-semibold text-lg">
-                Well-Furnished & Expertly Managed
-              </span>
-            </div>
-            <div
-              data-aos="flip-left"
-              data-aos-easing="ease-out-cubic"
-              data-aos-duration="2000"
-              className="flex flex-col items-center text-center p-6 bg-white shadow-lg rounded-xl transition duration-300 transform  hover:shadow-xl"
-            >
-              <img
-                src={icon6}
-                loading="lazy"
-                className="w-12 sm:w-16 mb-4"
-                alt="Low Maintenance Cost"
-              />
-              <span className="text-gray-800 font-semibold text-lg">
-                Cost-Efficient Maintenance
-              </span>
-            </div>
-            <div
-              data-aos="flip-left"
-              data-aos-easing="ease-out-cubic"
-              data-aos-duration="2000"
-              className="flex flex-col items-center text-center p-6 bg-white shadow-lg rounded-xl transition duration-300 transform  hover:shadow-xl"
-            >
-              <img
-                src={icon7}
-                loading="lazy"
-                className="w-12 sm:w-16 mb-4"
-                alt="Premium and Exclusive Inventory"
-              />
-              <span className="text-gray-800 font-semibold text-lg">
-                Elite & Curated Inventory
-              </span>
-            </div>
-            <div
-              data-aos="flip-left"
-              data-aos-easing="ease-out-cubic"
-              data-aos-duration="2000"
-              className="flex flex-col items-center text-center p-6 bg-white shadow-lg rounded-xl transition duration-300 transform hover:shadow-xl"
-            >
-              <img
-                src={icon8}
-                loading="lazy"
-                className="w-12 sm:w-16 mb-4"
-                alt="Risk Free and Diversified Investment"
-              />
-              <span className="text-gray-800 font-semibold text-lg">
-                Secure & Diversified Investment
-              </span>
-            </div>
-            <div
-              data-aos="flip-left"
-              data-aos-easing="ease-out-cubic"
-              data-aos-duration="2000"
-              className="flex flex-col items-center text-center p-6 bg-white shadow-lg rounded-xl transition duration-300 transform  hover:shadow-xl"
-            >
-              <img
-                src={icon9}
-                loading="lazy"
-                className="w-12 sm:w-16 mb-4"
-                alt="High Returns With High Capital Gains"
-              />
-              <span className="text-gray-800 font-semibold text-lg">
-                Capital Growth & Wealth Creation
-              </span>
-            </div>
-            <div
-              data-aos="flip-left"
-              data-aos-easing="ease-out-cubic"
-              data-aos-duration="2000"
-              className="flex flex-col items-center text-center p-6 bg-white shadow-lg rounded-xl transition duration-300 transform  hover:shadow-xl"
-            >
-              <img
-                src={icon10}
-                loading="lazy"
-                className="w-12 sm:w-16 mb-4"
-                alt="Unlimited Holidays With Unique Exchange"
-              />
-              <span className="text-gray-800 font-semibold text-lg">
-                Your key to Limitless Experiences
-              </span>
-            </div>
-            <div
-              data-aos="flip-left"
-              data-aos-easing="ease-out-cubic"
-              data-aos-duration="2000"
-              className="flex flex-col items-center text-center p-6 bg-white shadow-lg rounded-xl transition duration-300 transform  hover:shadow-xl"
-            >
-              <img
-                src={icon11}
-                loading="lazy"
-                className="w-12 sm:w-16 mb-4"
-                alt="Easy To Liquidate"
-              />
-              <span className="text-gray-800 font-semibold text-lg">
-                Flexible OWNership & Easy Exit
-              </span>
-            </div>
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+            {[
+              { icon: icon4, title: "Easy To OWN" },
+              { icon: icon5, title: "Well-Furnished & Expertly Managed" },
+              { icon: icon6, title: "Cost-Efficient Maintenance" },
+              { icon: icon7, title: "Elite & Curated Inventory" },
+              { icon: icon8, title: "Secure & Diversified Investment" },
+              { icon: icon9, title: "Capital Growth & Wealth Creation" },
+              { icon: icon10, title: "Your key to Limitless Experiences" },
+              { icon: icon11, title: "Flexible OWNership & Easy Exit" },
+            ].map((item, index) => (
+              <div
+                key={index}
+                data-aos="zoom-in"
+                className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300 group"
+              >
+                
+                <div  className="flex flex-col items-center text-center">
+                  <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-gray-200 transition-colors">
+                    <img src={item.icon} className="w-8 h-8" alt={item.title} />
+                  </div>
+                  <h3 className="font-semibold text-gray-800 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-gray-600">{item.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
