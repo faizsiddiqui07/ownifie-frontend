@@ -1,595 +1,381 @@
+import { HardDrive } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
+// --- Data Section (Same as before) ---
+const termsData = [
+  {
+    id: "introduction",
+    title: "Introduction",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    ),
+    content: (
+      <>
+        By accessing or using{" "}
+        <Link to="/" className="text-emerald-700 font-semibold hover:underline">
+          www.ownifie.com
+        </Link>{" "}
+        (the “Website” or “Platform”), you acknowledge that you have read,
+        understood, and agree to be bound by these Terms & Conditions.
+        <br />
+        If you do not agree with any part of these Terms, you must not use this Platform.
+        <br />
+        These Terms constitute a legally binding agreement between you (“User”, “Investor”, “Co-Owner”, “Channel Partner”) and <span className="font-bold">OWNiFiE Pvt. Ltd.</span>, the parent entity operating under the brand name <span className="font-bold">OWNiFiE</span> (“we”, “us”, “our”, “Company”)..
+      </>
+    ),
+  },
+  {
+    id: "definitions",
+    title: "Definitions",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+      />
+    ),
+    intro: "For the purpose of these Terms:",
+    points: [
+      {
+        bold: "Platform",
+        text: "refers to the OWNiFiE website and any associated digital interfaces.",
+      },
+      {
+        bold: "User / Investor",
+        text: "means any individual or entity registered to use OWNiFiE’s services.",
+      },
+      {
+        bold: "OWNiCELL",
+        text: "refers to a fractional digital representation of co-ownership in a property or asset.",
+      },
+      {
+        bold: "Property Partner / Developer",
+        text: "means any real-estate developer or seller collaborating with OWNiFiE.",
+      },
+      {
+        bold: "Channel Partner / Associate",
+        text: "means a person or agency officially affiliated with OWNiFiE for marketing, sales, or advisory purposes.",
+      },
+      {
+        bold: "Service",
+        text: "means the facilities, functionalities, and investment opportunities offered through OWNiFiE.",
+      },
+    ],
+  },
+  {
+    id: "eligibility",
+    title: "Eligibility",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    ),
+    intro: "To access and use the Platform:",
+    points: [
+      {
+        text: "You must be at least 18 years of age and legally competent to enter into contracts under applicable law.",
+      },
+      {
+        text: "You must complete all KYC/AML procedures as prescribed by the Company.",
+      },
+      {
+        text: "Corporate investors must provide authorised signatory details and documentation. OWNiFiE reserves the right to refuse or terminate access to users who fail to meet these criteria.",
+      },
+    ],
+  },
+  {
+    id: "platform-use",
+    title: "Platform Use",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+      />
+    ),
+    points: [
+      { text: "You agree to use the Platform only for lawful purposes and in accordance with these Terms." },
+      { text: "You shall not misuse, copy, distribute, or attempt to reverse engineer any part of the Platform." },
+      { text: "You agree to provide accurate, current, and complete information during registration and keep it updated." },
+      { text: "Any unauthorised use of another user’s account, credentials, or financial data is strictly prohibited." },
+    ],
+  },
+  {
+    id: "account-security",
+    title: "Account & Security",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+      />
+    ),
+    points: [
+      {
+        text: "Users must maintain confidentiality of their login credentials.",
+      },
+      {
+        text: "You agree to notify OWNiFiE immediately of any unauthorised access to your account.",
+      },
+      {
+        text: "OWNiFiE shall not be liable for any loss arising from compromised credentials due to user negligence.",
+      },
+    ],
+  },
+  {
+    id: "fees",
+    title: "Fees, Payments & Refunds",
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    ),
+    points: [
+      {
+        text: "All investments, service fees, and charges are displayed transparently on the Platform.",
+      },
+      {
+        text: "Payments shall be made via authorised banking channels, UPI, or integrated gateways.",
+      },
+      {
+        text: "Refunds, if any, shall be processed only as per the relevant project’s investment agreement or regulatory guidelines.",
+      },
+    ],
+  },
+  {
+    id: "date",
+    title: "Data & Privacy",
+    icon: <HardDrive />,
+    content: <>Use of OWNiFiE is governed by our <Link to={"/privacy-policy"}>Privacy Policy</Link>.
+    <br />
+    By accessing the Platform, you consent to our collection, storage, and use of data as detailed therein.
+    </>,
+  },
+];
 
 const TermsAndCondition = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState("introduction");
+  const [isManualScroll, setIsManualScroll] = useState(false);
 
+  // --- EFFECT 1: INITIAL LOAD ONLY (Fixes the scroll blocking issue) ---
   useEffect(() => {
     setIsVisible(true);
     window.scrollTo(0, 0);
-  }, []);
+  }, []); // Empty dependency array means this runs ONCE.
+
+  // --- EFFECT 2: SCROLL SPY LOGIC ---
+  useEffect(() => {
+    const handleScroll = () => {
+      // Agar humne click kiya hai, to auto-detection mat karo (Glitch prevent karne ke liye)
+      if (isManualScroll) return;
+
+      const scrollPosition = window.scrollY;
+      const offset = 180; // Header height + thoda gap
+
+      let current = activeSection;
+
+      for (const item of termsData) {
+        const element = document.getElementById(item.id);
+        if (element) {
+          // Check karo agar element viewport ke 'offset' area mein aa gaya hai
+          if (element.offsetTop - offset <= scrollPosition) {
+            current = item.id;
+          }
+        }
+      }
+
+      if (current !== activeSection) {
+        setActiveSection(current);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeSection, isManualScroll]); // Ye dependencies sahi hain
+
+  // --- CLICK HANDLER ---
+  const scrollToSection = (id) => {
+    setIsManualScroll(true); // Manual mode ON
+    setActiveSection(id); // Link turant highlight karo
+
+    const element = document.getElementById(id);
+    if (element) {
+      // Header ke hisaab se offset adjust karo (taki heading chupe nahi)
+      const yOffset = -120;
+      const y =
+        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+
+      // 1 second baad manual mode OFF karo taaki wapis scroll detect hone lage
+      setTimeout(() => {
+        setIsManualScroll(false);
+      }, 1000);
+    }
+  };
 
   return (
     <div
-      className={`min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 transition-all duration-1000 ${
-        isVisible ? "opacity-100" : "opacity-0"
-      }`}
+      className={`min-h-screen bg-gray-50 transition-opacity duration-700 ${isVisible ? "opacity-100" : "opacity-0"}`}
     >
-      {/* Header Section */}
-      <div className="relative bg-gradient-to-r from-emerald-700 to-teal-600 text-white py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-black opacity-10"></div>
-        <div className="absolute -top-20 -right-20 w-64 h-64 bg-white opacity-10 rounded-full"></div>
-        <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-white opacity-10 rounded-full"></div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center animate-fade-in-down">
+      {/* Hero Header */}
+      <div className="relative bg-gradient-to-br from-emerald-800 to-teal-700 text-white pb-24 pt-24 overflow-hidden">
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-white opacity-5 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-emerald-400 opacity-10 blur-3xl"></div>
+        <div className="px-4 relative z-10 text-center">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold mb-4 tracking-tight">
             Terms & Conditions
           </h1>
-          <p className="text-xl text-center text-emerald-100 animate-fade-in-up">
-            OWNiFiE Proptech Private Limited
-          </p>
         </div>
-
-        <div className="absolute bottom-0 left-0 w-full">
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
           <svg
-            className="h-16 w-full text-gray-50"
+            className="relative block w-full h-16 text-gray-50"
             viewBox="0 0 1200 120"
             preserveAspectRatio="none"
           >
             <path
-              d="M1200 120L0 16.48 0 0 1200 0 1200 120z"
+              d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
               fill="currentColor"
             ></path>
           </svg>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-12 -mt-10">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="px-4 sm:px-16 pt-12 pb-4 -mt-16 relative z-20">
+        <div className="flex flex-col lg:flex-row gap-8 items-start relative">
+          {/* Sidebar */}
+          <aside className="hidden lg:block lg:w-1/4 sticky top-28 self-start h-fit transition-all duration-300">
+            <div className="bg-white rounded-xl shadow-lg border border-emerald-100 overflow-hidden">
+              <div className="p-4 bg-gradient-to-r from-emerald-50 to-white border-b border-emerald-100">
+                <h3 className="font-bold text-emerald-800 uppercase text-xs tracking-wider flex items-center gap-2">
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h7"
+                    />
+                  </svg>
+                  Quick Navigation
+                </h3>
+              </div>
+              <nav className="max-h-[70vh] overflow-y-auto custom-scrollbar">
+                <ul className="py-2">
+                  {termsData.map((item) => (
+                    <li key={item.id}>
+                      <button
+                        onClick={() => scrollToSection(item.id)}
+                        className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 border-l-4 hover:bg-emerald-50 flex items-center group
+                        ${
+                          activeSection === item.id
+                            ? "border-emerald-600 text-emerald-800 bg-emerald-50/50"
+                            : "border-transparent text-gray-500 hover:text-emerald-600"
+                        }`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full mr-2 transition-colors ${activeSection === item.id ? "bg-emerald-600" : "bg-gray-300 group-hover:bg-emerald-400"}`}
+                        ></span>
+                        {item.title}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+          </aside>
+
           {/* Main Content */}
-          <div className="lg:w-3/4 mx-auto">
-            {/* OWNiFiE Owner Agreement Section */}
-            <section
-              id="OWNiFiE-owner-agreement"
-              className="policy-section bg-white rounded-xl shadow-lg p-6 mb-8 animate-fade-in-up"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-emerald-800 mb-6 pb-3 border-b-2 border-emerald-100 flex items-center">
-                <svg
-                  className="w-6 h-6 mr-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                OWNiFiE Owner Agreement
-              </h2>
+          <div className="w-full lg:w-3/4">
+            {termsData.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 md:p-7 mb-6 hover:shadow-md transition-shadow duration-300 scroll-mt-36"
+              >
+                <div className="flex items-center mb-6 pb-4 border-b border-gray-100">
+                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 mr-4 flex-shrink-0">
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      {section.icon}
+                    </svg>
+                  </div>
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
+                    {section.title}
+                  </h2>
+                </div>
 
-              <div className="space-y-4 text-gray-700">
-                <p>
-                  I understand and agree that OWNiFiE Proptech Pvt Ltd, being a
-                  Proptech Platform to offer Fractional Ownership on Holiday
-                  Homes/Secondary Homes by dividing the total cost of the
-                  property (Including BSP, Stamp duty cost, Registration Cost,
-                  Furnishing Cost, other equipment required inside the unit)
-                  into equal fractions. The registration of the unit will be
-                  done in the name of the designated SPV and I will be appointed
-                  as a shareholder in the designated SPV.
-                </p>
+                {section.content && (
+                  <div className="text-gray-600 leading-relaxed mb-4 text-lg">
+                    {section.content}
+                  </div>
+                )}
+                {section.intro && (
+                  <p className="text-gray-700 font-medium mb-4">
+                    {section.intro}
+                  </p>
+                )}
 
-                <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-                  My Application For Ownership
-                </h3>
-
-                <div className="bg-emerald-50 border-l-4 border-emerald-500 p-5 rounded-r-lg">
-                  <p className="mb-3">To become an Owner, I declare that:</p>
-                  <ul className="list-disc pl-5 space-y-2">
-                    <li>I am above 18 years of age</li>
-                    <li>
-                      I agree to complete and submit an enrolment application to
-                      OWNiFiE Proptech Pvt Ltd in the prescribed form
-                    </li>
-                    <li>
-                      I agree to pay the application fee to OWNiFiE Proptech Pvt
-                      Ltd
-                    </li>
+                {section.points && (
+                  <ul className="space-y-4">
+                    {section.points.map((point, i) => (
+                      <li key={i} className="flex items-start group">
+                        <div className="flex-shrink-0 mt-1 mr-3">
+                          <span className="w-6 h-6 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                            <svg
+                              className="w-3.5 h-3.5 text-emerald-600"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth="3"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                        <div className="text-gray-600 leading-relaxed">
+                          {point.bold && (
+                            <span className="font-bold text-gray-800 mr-1">
+                              {point.bold}
+                            </span>
+                          )}
+                          {point.text}
+                        </div>
+                      </li>
+                    ))}
                   </ul>
-                </div>
-
-                <p>
-                  I understand and agree that OWNiFiE Proptech Pvt Ltd reserves
-                  the right to refuse any enrolment application, including
-                  without limitation if required to do so by the laws, rules or
-                  regulations of any local, state, national or federal
-                  governmental entity or by any judicial, public, regulatory or
-                  law enforcement authority or court.
-                </p>
-
-                <div className="bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-lg mt-6">
-                  <h4 className="font-bold text-blue-800 text-lg mb-2">
-                    Co-Ownership Terms
-                  </h4>
-                  <p>
-                    I understand and agree that up to 2 co-owners of OWNiFiE
-                    Ownership who live at the same address may apply for one
-                    OWNiFiE. I have to nominate a lead owner to act as our
-                    principal contact for matters relating to our ownership.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            {/* Property Rights Section */}
-            <section
-              id="property-rights"
-              className="policy-section bg-white rounded-xl shadow-lg p-6 mb-8 animate-fade-in-up"
-              style={{ animationDelay: "0.1s" }}
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-emerald-800 mb-6 pb-3 border-b-2 border-emerald-100 flex items-center">
-                <svg
-                  className="w-6 h-6 mr-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm4.707 5.707a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L8.414 10l1.293-1.293zm4 0a1 1 0 010 1.414L11.586 10l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                Property Rights
-              </h2>
-
-              <div className="space-y-4 text-gray-700">
-                <p>
-                  I understand and agree that Usage rights of 30 Days every year
-                  is allotted to me. However, all 30 days cannot be used at once
-                  and should be in a breakup of Minimum 2 Night 3 Days and
-                  Maximum 7 Night 8 Days in one stretch.
-                </p>
-
-                <div className="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-lg mt-6">
-                  <h4 className="font-bold text-amber-800 text-lg mb-2">
-                    NOTE:
-                  </h4>
-                  <p>
-                    For more details on Usage, please refer the FAQs of Usage on
-                    www.OWNiFiE.com
-                  </p>
-                </div>
-
-                <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-                  Obligations
-                </h3>
-                <p>
-                  I understand and agree that all the obligations like
-                  Maintenance, Repair, Breakage, Renovation, Updation,
-                  Government Taxes, etc. will be beared by the shareholders
-                  collectively in the same ratio as per their Ownership in the
-                  related property of the respective SPV.
-                </p>
-
-                <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-                  Occupancy Limits
-                </h3>
-                <p>
-                  I understand that the number of people who can occupy the
-                  apartment is as follows:
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-emerald-700">
-                      3 BHK Apartment/Villa
-                    </h4>
-                    <p>6 Adults and 2 Kids</p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-emerald-700">
-                      2 BHK Apartment/Villa
-                    </h4>
-                    <p>4 Adults and 2 Kids</p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-emerald-700">
-                      1 BHK Apartment/Villa
-                    </h4>
-                    <p>3 Adults or 2 Adults and 2 Kids</p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-emerald-700">
-                      Studio Apartment/Villa
-                    </h4>
-                    <p>2 Adults and 1 Kid</p>
-                  </div>
-                </div>
-
-                <p className="text-sm text-gray-600 italic">
-                  (Children above 12 years shall be considered as adult for the
-                  purpose of occupancy. 2 children below 12 years to be
-                  considered as one adult).
-                </p>
-              </div>
-            </section>
-
-            {/* Payment Terms Section */}
-            <section
-              id="payment-terms"
-              className="policy-section bg-white rounded-xl shadow-lg p-6 mb-8 animate-fade-in-up"
-              style={{ animationDelay: "0.2s" }}
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-emerald-800 mb-6 pb-3 border-b-2 border-emerald-100 flex items-center">
-                <svg
-                  className="w-6 h-6 mr-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path>
-                  <path
-                    fillRule="evenodd"
-                    d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                Payment Terms
-              </h2>
-
-              <div className="space-y-4 text-gray-700">
-                <div className="bg-emerald-50 border-l-4 border-emerald-500 p-5 rounded-r-lg">
-                  <h4 className="font-bold text-emerald-800 text-lg mb-2">
-                    Payment Consent
-                  </h4>
-                  <p>
-                    The OWNiFiE Proptech Pvt Ltd doesn't accept Booking Amount
-                    payments in cash. All payments to OWNiFiE Proptech Pvt Ltd
-                    are to be made in form of cheque/draft favoring "OWNiFiE
-                    Proptech Pvt Ltd Proptech Pvt Ltd.", or through Credit
-                    Cards/Debit Cards/Bank to Bank transfer/UPI etc.
-                  </p>
-                </div>
-
-                <p>
-                  I understand and agree that if I delay or do not pay the
-                  installments on time/due date, I will be liable to pay a
-                  penalty/interest of 11% per annum on the due amount.
-                </p>
-
-                <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-                  Methods of Payments and Refunds
-                </h3>
-                <p>
-                  I understand and agree that I have to quote my booking details
-                  on all bank transfers and cheques payable to OWNiFiE Proptech
-                  Pvt Ltd to avoid errors and undue delays.
-                </p>
-
-                <p>
-                  I will be responsible for paying my bank's charges in respect
-                  of all payments made to and refunds received from OWNiFiE
-                  Proptech Pvt Ltd.
-                </p>
-
-                <p>
-                  I understand and agree that any refund made by OWNiFiE
-                  Proptech Pvt Ltd will be in the same manner and currency as
-                  the original payment was made by me.
-                </p>
-              </div>
-            </section>
-
-            {/* Cancellation Policy Section */}
-            <section
-              id="cancellation-policy"
-              className="policy-section bg-white rounded-xl shadow-lg p-6 mb-8 animate-fade-in-up"
-              style={{ animationDelay: "0.3s" }}
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-emerald-800 mb-6 pb-3 border-b-2 border-emerald-100 flex items-center">
-                <svg
-                  className="w-6 h-6 mr-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                Cancellation Policy
-              </h2>
-
-              <div className="space-y-4 text-gray-700">
-                <div className="bg-red-50 border-l-4 border-red-500 p-5 rounded-r-lg">
-                  <h4 className="font-bold text-red-800 text-lg mb-2">
-                    Cancellation Terms
-                  </h4>
-                  <p>
-                    I understand and agree that the booking amount is considered
-                    as the "Earnest Money", if I cancel my OWNiFiE Ownership after
-                    the booking payment, the entire "Earnest Money" will be
-                    forfeited by OWNiFiE Proptech Pvt Ltd. However, I have a
-                    freelook period of 14 Days from the date of Onboarding.
-                  </p>
-                </div>
-
-                <p>
-                  I understand and agree that the lock-in period for the OWNiFiE
-                  Ownership will be for 3 years from the date of possession of
-                  the property. I am not allowed to liquidate my OWNiFiE before the
-                  end of the lock in period.
-                </p>
-
-                <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-                  Right of First Refusal (ROFR)
-                </h3>
-                <p>
-                  I understand and agree that if I wish to liquidate my OWNiFiE
-                  through outright sales, then I will be under contractual
-                  obligation to first offer my OWNiFiE at the appropriate market
-                  rate to OWNiFiE PROPTECH PVT LTD and only once OWNiFiE
-                  Proptech Pvt Ltd does not accepts the offer and declines the
-                  offer for whatsoever reason, communicating it in writing with
-                  me, I may proceed to sell the OWNiFiE in open market.
-                </p>
-              </div>
-            </section>
-
-            {/* Management Agreement Section */}
-            <section
-              id="management-agreement"
-              className="policy-section bg-white rounded-xl shadow-lg p-6 mb-8 animate-fade-in-up"
-              style={{ animationDelay: "0.4s" }}
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-emerald-800 mb-6 pb-3 border-b-2 border-emerald-100 flex items-center">
-                <svg
-                  className="w-6 h-6 mr-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
-                </svg>
-                Management Agreement
-              </h2>
-
-              <div className="space-y-4 text-gray-700">
-                <p>
-                  THE MANAGEMENT AGREEMENT between the Designated SPV and
-                  OWNiFiE PropTech Private Limited or it's associated SPV
-                  company or LLP or any other Legal entity to be executed on the
-                  terms and conditions specified.
-                </p>
-
-                <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-                  Services Rendered
-                </h3>
-                <p>
-                  OWNiFiE PropTech Private Limited or it's associated SPV
-                  company or LLP or any other Legal entity commit to provide all
-                  Property management Services i.e., 24X7 Concierge,
-                  Housekeeping, Room services etc. at the Property owned by the
-                  related SPV.
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-blue-700 mb-2">
-                      Maintenance & Reservation
-                    </h4>
-                    <p className="text-sm">
-                      Maintenance of a reservation service and rentals, together
-                      with the Property Manager and other employees.
-                    </p>
-                  </div>
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-blue-700 mb-2">
-                      Cleaning & Housekeeping
-                    </h4>
-                    <p className="text-sm">
-                      Arranging for or providing cleaning, housekeeping and maid
-                      service for the Unit.
-                    </p>
-                  </div>
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-blue-700 mb-2">
-                      Repairs & Maintenance
-                    </h4>
-                    <p className="text-sm">
-                      Periodic inspection and arrangements for necessary repairs
-                      and maintenance of said property.
-                    </p>
-                  </div>
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-blue-700 mb-2">
-                      Accounting & Records
-                    </h4>
-                    <p className="text-sm">
-                      Maintenance of accounting records with relation to the
-                      Unit, usage and occupancy thereof.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* Limitation of Liability Section */}
-            <section
-              id="limitation-liability"
-              className="policy-section bg-white rounded-xl shadow-lg p-6 mb-8 animate-fade-in-up"
-              style={{ animationDelay: "0.5s" }}
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-emerald-800 mb-6 pb-3 border-b-2 border-emerald-100 flex items-center">
-                <svg
-                  className="w-6 h-6 mr-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                Limitation of Liability
-              </h2>
-
-              <div className="space-y-4 text-gray-700">
-                <div className="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-lg">
-                  <h4 className="font-bold text-amber-800 text-lg mb-2">
-                    Disclaimer
-                  </h4>
-                  <p>
-                    Company makes no warranty, explicitly or implicitly, without
-                    Limitation with respect to the availability, quality or
-                    suitability of the accommodation facility provided in any
-                    unit including all amenities thereon and expressly disclaims
-                    the warranties or conditions of merchantability and fitness
-                    for any particular purpose.
-                  </p>
-                </div>
-
-                <p>
-                  Besides, under any circumstances, the company shall not be
-                  liable for any special, indirect, incidental, or consequential
-                  damages of any kind whatsoever (including, without limitation
-                  attorneys' fees) in any way due to resulting from or arising
-                  in connection with the OWNiFiE or the unit or the failure of
-                  company to perform its obligations or for any alleged
-                  deficiency of service, regardless of any negligence.
-                </p>
-
-                <p>
-                  Except as otherwise provided, the accommodation and amenities
-                  in the unit are provided on an "as is", "as available" basis
-                  and the Company disclaims all warranties.
-                </p>
-              </div>
-            </section>
-
-            {/* Channel Partner Agreement Section */}
-            <section
-              id="channel-partner"
-              className="policy-section bg-white rounded-xl shadow-lg p-6 animate-fade-in-up"
-              style={{ animationDelay: "0.6s" }}
-            >
-              <h2 className="text-2xl md:text-3xl font-bold text-emerald-800 mb-6 pb-3 border-b-2 border-emerald-100 flex items-center">
-                <svg
-                  className="w-6 h-6 mr-2"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
-                </svg>
-                Channel Partner Agreement
-              </h2>
-
-              <div className="space-y-4 text-gray-700">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                  Appointment
-                </h3>
-                <p>
-                  OWNiFiE Proptech Private Limited appoints the Channel Partner
-                  on an exclusive basis in the Territory of and to term and
-                  conditions of this agreement; Channel Partner can do
-                  Online/offline selling of bricks, provide assistance services,
-                  organize community events and all OWNiFiE Proptech Private
-                  Limited services in the exclusive territory.
-                </p>
-
-                <div className="bg-purple-50 border-l-4 border-purple-500 p-5 rounded-r-lg mt-6">
-                  <h4 className="font-bold text-purple-800 text-lg mb-2">
-                    Channel Partner Rights
-                  </h4>
-                  <ul className="list-disc pl-5 space-y-2">
-                    <li>
-                      Channel Partner can use the trade names, trademarks, of
-                      the OWNiFiE Proptech Pvt. Ltd for the business purpose
-                    </li>
-                    <li>
-                      Channel Partner can use the Company's copyright, website,
-                      data, brand name, knowledge etc.
-                    </li>
-                    <li>
-                      The Channel Partner shall enter into a Registered License
-                      Agreement when required
-                    </li>
-                  </ul>
-                </div>
-
-                <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-3">
-                  Term
-                </h3>
-                <p>
-                  This Agreement shall remain in force for the period of 5 years
-                  from the date of signature by the parties.
-                </p>
-
-                <p>
-                  The Company agrees to allow the Channel Partner to renew the
-                  Channel Partner subject to renewal terms being agreed and
-                  where the Channel Partner has operated the Channel Partner
-                  successfully and in accordance with the terms of this
-                  Agreement and the Channel Partner Manual.
-                </p>
-              </div>
-            </section>
+                )}
+              </section>
+            ))}
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <div className="bg-gray-800 text-white py-12 mt-12">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-lg">
-            If you have any questions about these Terms, please contact us at
-          </p>
-          <a
-            href="mailto:info@ownifie.com"
-            className="inline-block mt-4 text-emerald-300 hover:text-white text-xl font-medium transition-colors duration-300"
-          >
-            info@ownifie.com
-          </a>
-          <p className="mt-6 text-emerald-200">
-            OWNiFiE is India's Leading Proptech Company unlocking Fractional
-            Ownership in Private & Residential Real Estate
-          </p>
-        </div>
-      </div>
-
-      {/* Custom Animation Styles */}
-      <style jsx>{`
-        .animate-fade-in-down {
-          animation: fadeInDown 1s ease-out;
-        }
-        .animate-fade-in-up {
-          animation: fadeInUp 1s ease-out;
-        }
-        .animate-fade-in-up {
-          animation: fadeInUp 0.8s ease-out;
-          animation-fill-mode: both;
-        }
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translate3d(0, -30px, 0);
-          }
-          to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-          }
-        }
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translate3d(0, 30px, 0);
-          }
-          to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-          }
-        }
-      `}</style>
     </div>
   );
 };

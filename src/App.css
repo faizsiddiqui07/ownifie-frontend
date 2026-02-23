@@ -9,10 +9,6 @@ html {
   scroll-behavior: smooth;
 }
 
-body,
-html {
-  overflow-x: hidden;
-}
 
 @keyframes fadeIn {
   0% {

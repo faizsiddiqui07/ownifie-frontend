@@ -43,7 +43,7 @@ const Footer = () => {
                 to="/contact-us"
                 className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
               >
-                Contacts
+                Contact Us
               </Link>
               {/* <Link
                 to="/blog"
@@ -55,7 +55,7 @@ const Footer = () => {
           </div>
 
           {/* Policies Section */}
-          {/* <div>
+          <div>
             <h3 className="text-lg font-semibold mb-2 md:mb-6">Policies</h3>
             <div className="flex flex-col space-y-3">
               <Link
@@ -83,7 +83,7 @@ const Footer = () => {
                 Disclaimer
               </Link>
             </div>
-          </div> */}
+          </div>
 
           {/* Contact Section */}
           <div>
@@ -100,12 +100,20 @@ const Footer = () => {
               </div>
               <div className="flex items-center">
                 <FaPhone className="text-blue-400 mr-3 flex-shrink-0" />
-                <a
+                <div className="flex gap-x-2">
+                  <a
                   href="tel:+919119897770"
                   className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
                 >
                   +91 9119897770
                 </a>
+                <a
+                  href="tel:+919119897771"
+                  className="text-gray-400 hover:text-[#972608] transition-colors duration-200"
+                >
+                  +91 9119897771
+                </a>
+                </div>
               </div>
               <div className="flex items-start">
                 <FaLocationDot className="text-blue-400 mt-1 mr-3 flex-shrink-0" />
@@ -189,8 +197,8 @@ const Footer = () => {
       {/* Copyright Section */}
       <div className="border-t border-gray-700 py-3 text-center text-gray-400">
         <p>
-          © 2025 Ownifie |{" "}
-          <span>Developed by NeuroCort. All Rights Reserved.</span>
+          © {new Date().getFullYear()} Ownifie |{" "}
+          <span>Developed by BrainQbit. All Rights Reserved.</span>
         </p>
       </div>
     </footer>

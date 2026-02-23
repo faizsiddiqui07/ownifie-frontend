@@ -86,19 +86,26 @@ const ContactUs = () => {
                   <MdPhone className="text-2xl text-[#122F6B]" />
                   <div>
                     <h3 className="text-lg font-medium">Phone</h3>
-                    <a
-                      href="tel:+919119897770"
-                      className="text-indigo-500 hover:underline text-sm"
-                    >
-                      +91 9119897770
-                    </a>
+                    <div className="flex gap-x-2">
+                      <a
+                        href="tel:+919119897770"
+                        className="text-indigo-500 hover:underline text-sm"
+                      >
+                        +91 9119897770
+                      </a>
+                      <a
+                        href="tel:+919119897771"
+                        className="text-indigo-500 hover:underline text-sm"
+                      >
+                        +91 9119897771
+                      </a>
+                    </div>
                   </div>
                 </div>
 
                 <div className="w-full h-96 rounded-lg overflow-hidden shadow-xl border mt-4">
                   <iframe
-                    title="Google Map"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.6092564937308!2d81.00190507522203!3d26.848142976685764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be396867ab099%3A0x7207c96620a37c1f!2sBuildifie!5e1!3m2!1sen!2sin!4v1750832740819!5m2!1sen!2sin"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3383.6092564937308!2d81.00190507522203!3d26.848142976685764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4eec63477918d7e5%3A0x9e0e7a8387c0d37c!2sOWNiFiE!5e1!3m2!1sen!2sin!4v1771828741798!5m2!1sen!2sin"
                     width="100%"
                     height="100%"
                     allowFullScreen=""

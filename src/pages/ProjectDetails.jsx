@@ -418,20 +418,21 @@ const ProjectDetails = () => {
       <section className="px-4 sm:px-16 py-6 sm:py-10 ">
         <div className="grid md:grid-cols-2 gap-6 sm:gap-10">
           {/* Overview */}
+         {/* Overview */}
           <div>
             <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <FaHome className="text-[#122F6B]" />
               Property Overview
             </h2>
-            {(project.projectOverview || "").split("...").map((para, idx) => (
-              <p
-                key={idx}
-                data-aos="zoom-in-right"
-                className="text-gray-600 leading-relaxed mb-3"
-              >
-                {para}
-              </p>
-            ))}
+            
+            {/* dangerouslySetInnerHTML string ke andar ke HTML tags ko real HTML me convert kar dega */}
+            <div 
+              data-aos="zoom-in-right" 
+              className="text-gray-600 leading-relaxed mb-3 [&>p]:mb-3"
+              dangerouslySetInnerHTML={{ 
+                __html: project.projectOverview || project.description || "" 
+              }} 
+            />
           </div>
 
           {/* Property Details */}
@@ -675,7 +676,7 @@ const ProjectDetails = () => {
         </div>
       </section>
 
-      {["villas", "studio apartments"].includes(
+      {["villas", "studio apartments",'Private Nature Residence'].includes(
         project.projectType?.toLowerCase()
       ) && (
         <section data-aos="zoom-in" className="px-4 sm:px-16  pb-8">
