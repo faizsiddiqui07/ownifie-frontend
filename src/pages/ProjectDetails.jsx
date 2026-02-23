@@ -676,7 +676,7 @@ const ProjectDetails = () => {
         </div>
       </section>
 
-      {["villas", "studio apartments",'Private Nature Residence'].includes(
+      {["villas", "studio apartments",'private nature residence'].includes(
         project.projectType?.toLowerCase()
       ) && (
         <section data-aos="zoom-in" className="px-4 sm:px-16  pb-8">
