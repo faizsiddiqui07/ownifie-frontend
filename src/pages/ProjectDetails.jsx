@@ -128,6 +128,19 @@ const ProjectDetails = () => {
       );
   const bookingAmount = Math.round(owniBitValue * 0.1).toLocaleString("en-IN");
 
+  // Sold Out admin panel ke projectStatus se aata hai -> pricing, tables aur CTA band
+  const isSoldOut = project?.projectStatus === "Sold Out";
+
+  // Sirf in types ki value unitBreakdown se banti hai (farm types ki pricing abhi band hai)
+  const isPricedType = [
+    "Villas",
+    "Studio Apartments",
+    "Private Nature Residence",
+  ].includes(project?.projectType);
+
+  // Price tabhi dikhega jab admin panel se unit breakdown bhara gaya ho
+  const hasPrice = isPricedType && owniBitValue > 0;
+
   const ownershipPlan = {
     firstInstallment: (totalBeforeModule * 0.2).toLocaleString("en-IN"),
     secondInstallment: (totalBeforeModule * 0.1).toLocaleString("en-IN"),
@@ -353,15 +366,17 @@ const ProjectDetails = () => {
             </div>
           </div>
 
-          {/* CTA Button */}
-          <div className="w-full md:w-auto">
-            <button
-              onClick={handleInquiry}
-              className="text-sm bg-[#122F6B] hover:bg-[#0f265a] transition-all text-white p-3 rounded-md shadow"
-            >
-              Enquiry
-            </button>
-          </div>
+          {/* CTA Button - sold out projects pe enquiry ka matlab nahi */}
+          {!isSoldOut && (
+            <div className="w-full md:w-auto">
+              <button
+                onClick={handleInquiry}
+                className="text-sm bg-[#122F6B] hover:bg-[#0f265a] transition-all text-white p-3 rounded-md shadow"
+              >
+                Enquiry
+              </button>
+            </div>
+          )}
         </div>
 
         <Swiper
@@ -611,74 +626,72 @@ const ProjectDetails = () => {
           <div data-aos="fade-left" className="w-full space-y-6">
             <div>
               <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-2">
-                {project?.projectType === "Villas" ||
-                project?.projectType === "Studio Apartment"
-                  ? "OWN this Property"
-                  : "OWN this Property"}
+                {isSoldOut ? "This Property is Sold Out" : "OWN this Property"}
               </h2>
-              <h3 className="text-xl font-medium text-[#122F6B]">
-                {project?.projectType === "Villas" ||
-                project?.projectType === "Studio Apartments" ? (
-                  <span>
-                    OWNiCELL Value (1/11<sup>th</sup> Fraction)
-                  </span>
-                ) : (
-                  "OWNiPROP Value"
-                )}
-              </h3>
-              {project?.projectType === "Farm Lands" ||
-              project?.projectType === "Farm Houses" ? (
-                "---"
-              ) : (
-                <p className="text-3xl text-green-900 mt-2 font-bold">
-                  ₹{owniBitValue.toLocaleString("en-IN")}/-
-                </p>
-              )}
-              {/* <p className="text-3xl text-green-900 mt-2 font-bold">
-                ₹{owniBitValue.toLocaleString("en-IN")}/-
-              </p> */}
 
-              <h4 className="text-base font-medium text-gray-600 mt-8">
-                Booking Amount
-              </h4>
-              {project?.projectType === "Farm Lands" ||
-              project?.projectType === "Farm Houses" ? (
-                "---"
-              ) : (
+              {isSoldOut ? (
+                <div className="mt-4">
+                  <span className="inline-block px-4 py-1 rounded-full bg-red-200 text-red-700 font-semibold text-sm">
+                    Sold Out
+                  </span>
+                  <p className="text-gray-600 mt-3 leading-relaxed">
+                    Every unit of this project is already OWNed, so pricing and
+                    booking are closed. Explore our other projects below for
+                    what is open right now.
+                  </p>
+                </div>
+              ) : hasPrice ? (
                 <>
+                  <h3 className="text-xl font-medium text-[#122F6B]">
+                    {project?.projectType === "Villas" ||
+                    project?.projectType === "Studio Apartments" ? (
+                      <span>
+                        OWNiCELL Value (1/11<sup>th</sup> Fraction)
+                      </span>
+                    ) : (
+                      "OWNiPROP Value"
+                    )}
+                  </h3>
+                  <p className="text-3xl text-green-900 mt-2 font-bold">
+                    ₹{owniBitValue.toLocaleString("en-IN")}/-
+                  </p>
+
+                  <h4 className="text-base font-medium text-gray-600 mt-8">
+                    Booking Amount
+                  </h4>
                   <p className="text-3xl font-semibold text-gray-900">
-                    ₹{bookingAmount.toLocaleString("en-IN")}/-
+                    ₹{bookingAmount}/-
                   </p>
                   <span className="text-sm text-gray-500 italic">
                     (Inc. of GST)
                   </span>
                 </>
-              )}
+              ) : null}
             </div>
 
-            <div className="flex flex-wrap gap-4 mt-4">
-              {/* <Link to="/contact-us"> */}
-              <button
-                onClick={handleInquiry}
-                className="bg-[#122F6B] hover:bg-[#0f265a] transition-all text-white px-6 py-3 rounded-md shadow"
-              >
-                Enquiry
-              </button>
+            {!isSoldOut && (
+              <div className="flex flex-wrap gap-4 mt-4">
+                <button
+                  onClick={handleInquiry}
+                  className="bg-[#122F6B] hover:bg-[#0f265a] transition-all text-white px-6 py-3 rounded-md shadow"
+                >
+                  Enquiry
+                </button>
 
-              <button
-                onClick={handleBookForm}
-                className="text-[#122F6B] hover:bg-[#122F6B] hover:text-white transition-all border-2 border-[#122F6B] px-6 py-3 rounded-lg shadow-md"
-              >
-                Book Now
-              </button>
-            </div>
+                <button
+                  onClick={handleBookForm}
+                  className="text-[#122F6B] hover:bg-[#122F6B] hover:text-white transition-all border-2 border-[#122F6B] px-6 py-3 rounded-lg shadow-md"
+                >
+                  Book Now
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {["villas", "studio apartments",'private nature residence'].includes(
-        project.projectType?.toLowerCase()
-      ) && (
+      {/* Ownership Plans / Unit Breakdown sirf tab jab price bhari ho aur sold out na ho */}
+      {!isSoldOut && hasPrice && (
         <section data-aos="zoom-in" className="px-4 sm:px-16  pb-8">
           <div className="max-w-5xl mx-auto">
             <Tabs defaultValue="ownershipPlans" className="w-full">

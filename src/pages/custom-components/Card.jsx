@@ -1,7 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// Sirf in types ki value admin panel ke projectAmount se aati hai
+const PRICED_TYPES = [
+  "Villas",
+  "Studio Apartments",
+  "Private Nature Residence",
+];
+
 const Card = ({ data }) => {
+  const projectAmount = Number(data?.projectAmount);
+
+  // Rate tabhi dikhega jab admin panel se amount bhara gaya ho
+  const showProjectAmount =
+    PRICED_TYPES.includes(data?.projectType) &&
+    Number.isFinite(projectAmount) &&
+    projectAmount > 0;
+
   return (
     <Link
       data-aos="zoom-in-up"
@@ -36,19 +51,15 @@ const Card = ({ data }) => {
         <p className="text-sm text-gray-600 line-clamp-1">
           {data?.projectAddress || "No address available"}
         </p>
-        <p className="text-base font-bold text-[#d08e02] mt-1">
-          {data?.projectType === "Villas" ||
-          data?.projectType === "Studio Apartments"
-            ? "OWNiCELL Value: ₹"
-            : "OWNiPROP Value: ₹"}
-          {data?.projectType === "Villas" ||
-          data?.projectType === "Studio Apartments"
-            ? Number(data?.projectAmount).toLocaleString("en-IN") || "---"
-            : "---"}
-          {/* {data?.projectAmount
-            ? Number(data?.projectAmount).toLocaleString("en-IN") || "---"
-            : "---"} */}
-        </p>
+        {showProjectAmount && (
+          <p className="text-base font-bold text-[#d08e02] mt-1">
+            {data?.projectType === "Villas" ||
+            data?.projectType === "Studio Apartments"
+              ? "OWNiCELL Value: ₹"
+              : "OWNiPROP Value: ₹"}
+            {projectAmount.toLocaleString("en-IN")}
+          </p>
+        )}
       </div>
     </Link>
   );
