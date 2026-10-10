@@ -126,7 +126,11 @@ const ProjectDetails = () => {
           (project?.unitBreakdown?.singleUnit?.gst || 0) +
           (project?.unitBreakdown?.singleUnit?.stampDuty || 0)
       );
-  const bookingAmount = Math.round(owniBitValue * 0.1).toLocaleString("en-IN");
+  // Advance aur Booking Amount ek hi cheez hain, isliye ek hi value se dono dikhte hain.
+  // Pehle headline Math.round() use karta tha aur table smartRound() (= floor),
+  // jisse 2,11,663.7 jaisi value par Rs 1 ka farq dikhta tha.
+  const bookingAmountValue = Math.round(owniBitValue * 0.1);
+  const bookingAmount = bookingAmountValue.toLocaleString("en-IN");
 
   // Sold Out admin panel ke projectStatus se aata hai -> pricing, tables aur CTA band
   const isSoldOut = project?.projectStatus === "Sold Out";
@@ -746,8 +750,8 @@ const ProjectDetails = () => {
                           [
                             "Advance",
                             "At the time of Booking",
-                            smartRound(owniBitValue * 0.1),
-                            smartRound(owniBitValue * 0.1 * 11),
+                            bookingAmountValue,
+                            bookingAmountValue * 11,
                           ],
                           [
                             "1st Installment",
@@ -829,7 +833,7 @@ const ProjectDetails = () => {
                           <TableCell className="text-right font-bold text-gray-800 whitespace-nowrap">
                             ₹
                             {(
-                              smartRound(owniBitValue * 0.1 * 11) +
+                              bookingAmountValue * 11 +
                               (project.ownershipPlan?.firstInstallment * 11 ||
                                 0) +
                               (project.ownershipPlan?.secondInstallment * 11 ||
@@ -850,7 +854,7 @@ const ProjectDetails = () => {
                           <TableCell className="text-right font-bold text-gray-800 whitespace-nowrap">
                             ₹
                             {(
-                              smartRound(owniBitValue * 0.1) +
+                              bookingAmountValue +
                               (project.ownershipPlan?.firstInstallment || 0) +
                               (project.ownershipPlan?.secondInstallment || 0) +
                               (project.ownershipPlan?.thirdInstallment || 0) +
