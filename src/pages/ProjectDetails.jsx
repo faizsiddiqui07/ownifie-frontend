@@ -141,6 +141,10 @@ const ProjectDetails = () => {
   // Price tabhi dikhega jab admin panel se unit breakdown bhara gaya ho
   const hasPrice = isPricedType && owniBitValue > 0;
 
+  // Image slider loop: 768px+ par slidesPerView 2 hai aur Swiper ko loop ke liye
+  // uska double chahiye, warna wo blank slides bhar deta hai
+  const projectImageCount = project?.projectImages?.length || 0;
+
   const ownershipPlan = {
     firstInstallment: (totalBeforeModule * 0.2).toLocaleString("en-IN"),
     secondInstallment: (totalBeforeModule * 0.1).toLocaleString("en-IN"),
@@ -381,6 +385,8 @@ const ProjectDetails = () => {
 
         <Swiper
           navigation
+          loop={projectImageCount >= 4}
+          rewind={projectImageCount < 4}
           modules={[Navigation, Autoplay]}
           autoplay={{ delay: 2000, disableOnInteraction: false }}
           spaceBetween={20}
