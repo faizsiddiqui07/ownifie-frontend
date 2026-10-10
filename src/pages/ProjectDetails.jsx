@@ -443,7 +443,7 @@ const ProjectDetails = () => {
             {/* dangerouslySetInnerHTML string ke andar ke HTML tags ko real HTML me convert kar dega */}
             <div 
               data-aos="zoom-in-right" 
-              className="text-gray-600 leading-relaxed mb-3 [&>p]:mb-3"
+              className="text-gray-600 leading-relaxed mb-3 [&>p]:mb-3 [&_p]:!items-center [&_img]:align-middle"
               dangerouslySetInnerHTML={{ 
                 __html: project.projectOverview || project.description || "" 
               }} 
