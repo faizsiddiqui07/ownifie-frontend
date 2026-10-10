@@ -14,7 +14,8 @@ const OurProjectsSlider = ({ excludeProjectId }) => {
 
   const get_projects = async () => {
     try {
-      const { data } = await axios.get(`${base_url}/api/allProjects`);
+      // allWebsiteProjects sirf active projects deta hai (deactive/pending nahi)
+      const { data } = await axios.get(`${base_url}/api/allWebsiteProjects`);
 
       const filteredProjects = excludeProjectId
         ? data.data.filter((project) => project._id !== excludeProjectId)
