@@ -12,9 +12,16 @@ import { EffectFade, FreeMode, Autoplay } from "swiper/modules";
 import "swiper/css/effect-fade";
 import "swiper/css/free-mode";
 
-import bannerImage1 from "../assets/images/snow14.webp";
-import bannerImage2 from "../assets/images/snow01.webp";
-import bannerImage3 from "../assets/images/snow10.webp";
+// Banner images - har ek ke 3 width variants, taaki mobile choti file download kare
+import banner1_768 from "../assets/images/banner-1-768.webp";
+import banner1_1280 from "../assets/images/banner-1-1280.webp";
+import banner1_1920 from "../assets/images/banner-1-1920.webp";
+import banner2_768 from "../assets/images/banner-2-768.webp";
+import banner2_1280 from "../assets/images/banner-2-1280.webp";
+import banner2_1920 from "../assets/images/banner-2-1920.webp";
+import banner3_768 from "../assets/images/banner-3-768.webp";
+import banner3_1280 from "../assets/images/banner-3-1280.webp";
+import banner3_1920 from "../assets/images/banner-3-1920.webp";
 
 import icon1 from "../assets/icons/Choose.webp";
 import icon2 from "../assets/icons/Own.webp";
@@ -38,8 +45,29 @@ import { base_url } from "@/config/config";
 import { sortByNewest } from "@/lib/utils";
 import { Helmet } from "react-helmet-async";
 
+// src = 1280 fallback (srcset na chale to bhi theek dikhe, aur fallback bhaari na pade)
+const srcSet = (w768, w1280, w1920) =>
+  `${w768} 768w, ${w1280} 1280w, ${w1920} 1920w`;
+
+const slides = [
+  {
+    src: banner1_1280,
+    srcSet: srcSet(banner1_768, banner1_1280, banner1_1920),
+    alt: "Luxury villa exterior lit up at night with landscaped garden",
+  },
+  {
+    src: banner2_1280,
+    srcSet: srcSet(banner2_768, banner2_1280, banner2_1920),
+    alt: "Lantern-lit pathway winding through tropical greenery to a villa",
+  },
+  {
+    src: banner3_1280,
+    srcSet: srcSet(banner3_768, banner3_1280, banner3_1920),
+    alt: "Private pool and terrace of a curved villa at dusk",
+  },
+];
+
 const HomePage = () => {
-  const slides = [bannerImage1, bannerImage2, bannerImage3];
   const [allProjects, setAllProjects] = useState([]);
   const [allBlogs, setAllBlogs] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
@@ -139,12 +167,18 @@ const HomePage = () => {
           effect="fade"
           className="h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px]"
         >
-          {slides.map((image, index) => (
+          {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <img
-                src={image}
-                loading="lazy"
-                alt={`Banner Img ${index + 1}`}
+                src={slide.src}
+                srcSet={slide.srcSet}
+                sizes="100vw"
+                alt={slide.alt}
+                width={1920}
+                height={1080}
+                {...(index === 0
+                  ? { loading: "eager", fetchPriority: "high" }
+                  : { loading: "lazy" })}
                 className="w-full h-full object-cover"
               />
             </SwiperSlide>
