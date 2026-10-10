@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
 import axios from "axios";
 import { base_url } from "@/config/config";
+import { sortByNewest } from "@/lib/utils";
 
 const OurProjectsSlider = ({ excludeProjectId }) => {
   const [allProjects, setAllProjects] = useState([]);
@@ -21,9 +22,7 @@ const OurProjectsSlider = ({ excludeProjectId }) => {
         ? data.data.filter((project) => project._id !== excludeProjectId)
         : data.data;
 
-      const reversedProjects = [...filteredProjects].reverse();
-
-      setAllProjects(reversedProjects);
+      setAllProjects(sortByNewest(filteredProjects));
     } catch (error) {
       console.log(error);
     }

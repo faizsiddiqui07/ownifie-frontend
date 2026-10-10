@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "./custom-components/Card";
 import axios from "axios";
 import { base_url } from "@/config/config";
+import { sortByNewest } from "@/lib/utils";
 import { Helmet } from "react-helmet-async";
 
 const AllProjects = () => {
@@ -23,7 +24,7 @@ const AllProjects = () => {
     const startTime = Date.now();
     try {
       const { data } = await axios.get(`${base_url}/api/allWebsiteProjects`);
-      setAllProjects(data.data);
+      setAllProjects(sortByNewest(data.data));
     } catch (error) {
       console.log(error);
     } finally {

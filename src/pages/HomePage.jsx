@@ -35,6 +35,7 @@ import BlogCard from "./custom-components/BlogCard";
 import ScrollToTop from "./custom-components/ScrollToTop";
 import axios from "axios";
 import { base_url } from "@/config/config";
+import { sortByNewest } from "@/lib/utils";
 import { Helmet } from "react-helmet-async";
 
 const HomePage = () => {
@@ -50,7 +51,7 @@ const HomePage = () => {
     try {
       setLoadingProjects(true);
       const { data } = await axios.get(`${base_url}/api/allWebsiteProjects`);
-      setAllProjects(data.data);
+      setAllProjects(sortByNewest(data.data));
     } catch (error) {
       console.log(error);
     } finally {
