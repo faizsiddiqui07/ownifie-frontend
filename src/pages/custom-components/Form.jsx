@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import { pixelTrack } from "@/lib/metaPixel";
 
 const Form = () => {
   const location = useLocation();
@@ -46,6 +47,10 @@ const Form = () => {
       const res = await axios.post(`${base_url}/api/contact-query`, payload);
 
       if (res.data.success) {
+        pixelTrack("Lead", {
+          content_name: project?.projectName || "General enquiry",
+          content_category: "Contact form",
+        });
         toast.success("Message submitted successfully!");
         setFormData({ fullName: "", email: "", phoneNumber: "", message: "" });
       } else {

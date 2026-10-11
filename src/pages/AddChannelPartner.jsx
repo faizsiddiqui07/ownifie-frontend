@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { base_url } from "@/config/config";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { pixelTrackCustom } from "@/lib/metaPixel";
 import {
   FaCheckCircle,
   FaUpload,
@@ -181,6 +182,12 @@ const AddChannelPartner = () => {
         `${base_url}/api/addChannelPartner`,
         payload
       );
+
+      // Custom event - ye buyer lead nahi hai, isliye Lead se alag rakha hai
+      pixelTrackCustom("ChannelPartnerApplication", {
+        partner_category: formData.partnerCategory,
+      });
+
       toast.success(res.data.message);
 
       // Reset form

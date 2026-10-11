@@ -7,6 +7,7 @@ import uploadImage from "@/helpers/uploadImage";
 import { base_url } from "@/config/config";
 import { toast } from "react-toastify";
 import { FaCheckCircle } from "react-icons/fa";
+import { pixelTrack } from "@/lib/metaPixel";
 
 const BookNowForm = () => {
   const { projectId } = useParams();
@@ -28,6 +29,16 @@ const BookNowForm = () => {
     profileImage: null,
     agreed: false,
   });
+
+  // Booking form khulna = strong intent signal
+  useEffect(() => {
+    pixelTrack("InitiateCheckout", {
+      content_type: "product",
+      content_ids: projectId ? [projectId] : [],
+      content_name: project?.projectName || "Unnamed Project",
+      content_category: project?.projectType,
+    });
+  }, [projectId, project?.projectName, project?.projectType]);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -68,6 +79,13 @@ const BookNowForm = () => {
       };
 
       const res = await axios.post(`${base_url}/api/bookProperty`, payload);
+
+      pixelTrack("CompleteRegistration", {
+        content_name: project?.projectName || "Unnamed Project",
+        content_category: project?.projectType,
+        status: true,
+      });
+
       toast.success(res.data.message);
 
       setFormData({

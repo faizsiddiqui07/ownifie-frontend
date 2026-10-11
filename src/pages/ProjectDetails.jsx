@@ -61,6 +61,7 @@ import {
 } from "@/components/ui/table";
 
 import OurProjectsSlider from "./custom-components/OurProjectsSlider";
+import { pixelTrack } from "@/lib/metaPixel";
 
 const ProjectDetails = () => {
   const { slug } = useParams();
@@ -199,6 +200,18 @@ const ProjectDetails = () => {
       return () => clearTimeout(delayTimer);
     }
   }, [slug]);
+
+  // Meta ko batao ki kaunsa project dekha gaya - isse per-project
+  // retargeting audience aur reporting dono milti hai
+  useEffect(() => {
+    if (!project?._id) return;
+    pixelTrack("ViewContent", {
+      content_type: "product",
+      content_ids: [project._id],
+      content_name: project.projectName,
+      content_category: project.projectType,
+    });
+  }, [project?._id, project?.projectName, project?.projectType]);
 
   const handleInquiry = () => {
     navigate("/contact-us#form", {
