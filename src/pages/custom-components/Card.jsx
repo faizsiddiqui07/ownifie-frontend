@@ -53,11 +53,7 @@ const Card = ({ data }) => {
         </p>
         {showProjectAmount && (
           <p className="text-base font-bold text-[#d08e02] mt-1">
-            {data?.projectType === "Villas" ||
-            data?.projectType === "Studio Apartments"
-              ? "OWNiCELL Value: ₹"
-              : "OWNiPROP Value: ₹"}
-            {projectAmount.toLocaleString("en-IN")}
+            OWNiCELL Value: ₹{projectAmount.toLocaleString("en-IN")}
           </p>
         )}
       </div>

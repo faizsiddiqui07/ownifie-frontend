@@ -666,14 +666,7 @@ const ProjectDetails = () => {
               ) : hasPrice ? (
                 <>
                   <h3 className="text-xl font-medium text-[#122F6B]">
-                    {project?.projectType === "Villas" ||
-                    project?.projectType === "Studio Apartments" ? (
-                      <span>
-                        OWNiCELL Value (1/11<sup>th</sup> Fraction)
-                      </span>
-                    ) : (
-                      "OWNiPROP Value"
-                    )}
+                    OWNiCELL Value (1/11<sup>th</sup> Fraction)
                   </h3>
                   <p className="text-3xl text-green-900 mt-2 font-bold">
                     ₹{owniBitValue.toLocaleString("en-IN")}/-
